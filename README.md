@@ -50,7 +50,7 @@ Measured on 8 x H100 80GB (DeepSpeed ZeRO-2, batch 1 per GPU): 27 s per step, 70
 .venv/bin/python editor/render_authored.py scene.json out/my_scene
 ```
 
-renders `control.mp4` with the same code path as the training data (`preprocess/rerender_camera.py`, `preprocess/geom.py`, the step-4 palette), so authored videos sit inside the training distribution. Feed `control.mp4`, a background image and a prompt to `train/run_infer_case.sh` (`CV=... REF=... PROMPT=...`). Two examples with rendered outputs are in `editor/examples/`; the format is documented in `editor/scene_schema.md`.
+renders `control.mp4` with the same code path as the training data. For a photograph as background, first run `editor/fit_background.py photo.png --scene scene.json --out scene_fit.json` (GeoCalib: focal length + horizon -> camera focal and tilt, and the camera presets are anchored to the photo's first-frame pose); the editor can also load the photo under its preview and show both horizon lines. It (`preprocess/rerender_camera.py`, `preprocess/geom.py`, the step-4 palette), so authored videos sit inside the training distribution. Feed `control.mp4`, a background image and a prompt to `train/run_infer_case.sh` (`CV=... REF=... PROMPT=...`). Two examples with rendered outputs are in `editor/examples/`; the format is documented in `editor/scene_schema.md`.
 
 ## Results beyond the training distribution
 
