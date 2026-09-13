@@ -58,10 +58,10 @@ CONTROL_VIDEO=/workspace/data/infer_inputs/authored/control_my_scene.mp4 REF_IMA
 At inference the reference image sets the background, so the authored camera must agree with the photo's ground: same focal length and tilt, otherwise the people come out at the wrong scale or float. Workflow:
 
 1. `python editor/fit_background.py photo.jpg` (GeoCalib; see the script header for options) prints a JSON with `focal_px`, `pitch_deg` (tilt below the horizon), `horizon_y` and `roll_deg`, all expressed in the 1280x720 control-video frame. It can also patch a `scene.json` directly.
-2. In the editor: *import camera fit* (sets focal and pitch, height untouched, and stores the fit in `scene.camera.fit`), then *background image* to draw the photo under the preview (object-fit contain, grid drawn semi-transparent on top). A yellow dashed line marks the photo horizon from the fit and a blue dotted line the grid's own vanishing line: they should coincide.
+2. In the editor: *import camera fit* (sets focal and pitch, height untouched, and stores the fit in `scene.camera.fit`), tick *anchor first frame to the photo* so frame 0 keeps the fitted camera exactly and orbit / pan / crane become rigid moves that start there (0..+40 deg orbit, 0..+24 deg pan, crane rising with the orientation kept), then *background image* to draw the photo under the preview (object-fit contain, grid drawn semi-transparent on top). A yellow dashed line marks the photo horizon from the fit and a blue dotted line the grid's own vanishing line: they should coincide.
 3. Adjust **camera height** until the cylinders' feet sit where people would stand in the photo (a taller camera pushes the ground down in the frame), and move the people with the top view. Use the same photo as `REF_IMAGE` when generating.
 
-Roll is reported but ignored (the renderer has no roll; pick photos with a level horizon). The fitted pitch is kept by the static, dolly and pan paths; orbit and crane re-aim the camera at the people, so their horizon differs from the photo's by design. Only the file name is exported (`camera.background_name`), not the image.
+Roll is reported but ignored (the renderer has no roll; pick photos with a level horizon). Without the anchor box, orbit and crane re-aim the camera at the people, so their first frame does not match the photo; with it, every path starts at the fitted camera. Only the file name is exported (`camera.background_name`), not the image.
 
 ## Conventions worth knowing
 
