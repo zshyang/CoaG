@@ -5,9 +5,13 @@
   "plane": {"origin": [0, 0, 0], "u": [1, 0, 0], "v": [0, 1, 0], "normal": [0, 0, 1]},
   "cylinders": [
     {"id": 0, "height": 1.0, "color_index": null,
-     "keyframes": [{"frame": 0, "uv": [2.6, 0.6]}, {"frame": 40, "uv": [3.1, 0.0]}, {"frame": 80, "uv": [2.6, -0.6]}]},
+     "keyframes": [{"frame": 0, "uv": [2.6, 0.6], "handle_out": [3.3, 0.6]},
+                   {"frame": 40, "uv": [3.3, 0.0], "handle_in": [3.3, 0.35], "handle_out": [3.3, -0.35]},
+                   {"frame": 80, "uv": [2.6, -0.6], "handle_in": [3.3, -0.6]}]},
     {"id": 1, "height": 0.9, "color_index": null,
-     "keyframes": [{"frame": 0, "uv": [2.6, -0.6]}, {"frame": 40, "uv": [2.2, 0.0]}, {"frame": 80, "uv": [2.6, 0.6]}]}
+     "keyframes": [{"frame": 0, "uv": [2.6, -0.6], "handle_out": [2.0, -0.6]},
+                   {"frame": 40, "uv": [2.0, 0.0], "handle_in": [2.0, -0.35], "handle_out": [2.0, 0.35]},
+                   {"frame": 80, "uv": [2.6, 0.6], "handle_in": [2.0, 0.6]}]}
   ],
   "camera": {"focal_px": 966, "principal": [640, 360], "height": 0.69, "pitch_deg": 2.0, "yaw_deg": 0.0, "path": "orbit"}
 }

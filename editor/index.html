@@ -16,15 +16,15 @@ button{margin:2px 4px 2px 0;padding:4px 10px;font-size:13px}
 .sel{background:#eef}
 </style></head>
 <body>
-<header><h1>CoaG authoring editor <span class="small">— drag people on the ground, pick a camera path, export scene.json, render with editor/render_authored.py</span></h1></header>
+<header><h1>CoaG authoring editor <span class="small">— drag people and their Bézier handles on the ground, pick a camera path, export scene.json, render with editor/render_authored.py</span></h1></header>
 <main>
 <section class="panel">
-  <div class="row"><b>Top view</b> <span class="small">camera at the bottom, forward is up, right is right. Drag a circle to move that person at the selected keyframe. Units = subject heights; one grid cell = one unit.</span></div>
-  <canvas id="top" width="536" width="536" height="536"></canvas>
-  <div class="row">Keyframe:
-    <span id="kfs"></span>
+  <div class="row"><b>Top view</b> <span class="small">camera at the bottom, forward is up, right is right. Drag a big circle to move that person at the selected keyframe; drag a small circle (selected person) to bend the path. Units = subject heights; one grid cell = one unit.</span></div>
+  <canvas id="top" width="536" height="536"></canvas>
+  <div class="row">Keyframes of the selected person: <span id="kfs"></span></div>
+  <div class="row"><label>keyframe frames <input type="text" id="kftimes" value="0,20,40,60,80" size="18"></label><label><input type="checkbox" id="alltimes"> apply to all people</label>
     <label><input type="checkbox" id="allkf"> move all keyframes together</label>
-  </div>
+    <button id="resethandles">reset handles (selected)</button></div>
   <div class="row">
     <button id="add">Add person</button><button id="del">Remove selected</button>
     <span class="small">scene shift (camera distance):</span> <button id="near">closer 0.5</button><button id="far">farther 0.5</button>
@@ -32,7 +32,7 @@ button{margin:2px 4px 2px 0;padding:4px 10px;font-size:13px}
   <div id="people"></div>
 </section>
 <section class="panel">
-  <div class="row"><b>Camera preview</b> <span class="small">the same projection the renderer uses (1280x720 shown at half size)</span></div>
+  <div class="row"><b>Camera preview</b> <span class="small">the same projection the renderer uses (1280x720 shown at half size); dotted lines = each person's path on the ground</span></div>
   <canvas id="view" width="640" height="360"></canvas>
   <div class="row">frame <input type="range" id="frame" min="0" max="80" value="0"> <span id="fval">0</span>
     <button id="play">play</button></div>
@@ -43,7 +43,7 @@ button{margin:2px 4px 2px 0;padding:4px 10px;font-size:13px}
     <label>yaw right (deg) <input type="number" id="yaw" step="1" value="0"></label>
     <label>focal (px @1280) <input type="number" id="focal" step="10" value="966"></label>
   </div>
-  <div class="row small">Training data: camera height median 0.69 (0.56–0.85), pitch 2° (−1..6°), focal 966 px (865–1082), subjects 2.6 units ahead (2.1–3.4). Path magnitudes are fixed by the renderer (dolly ≤ 1.2 units, orbit ±20°, pan ±12°, crane from +1.5 units).</div>
+  <div class="row small">Training data: camera height median 0.69 (0.56–0.85), pitch 2° (−1..6°), focal 966 px (865–1082), subjects 2.6 units ahead (2.1–3.4). Path magnitudes are fixed by the renderer (dolly ≤ 1.2 units, orbit ±20°, pan ±12°, crane from +1.5 units). People move at constant speed between consecutive keyframes.</div>
   <div class="row">
     <label>scene name <input type="text" id="name" value="my_scene"></label>
     <button id="export">Export scene.json</button>
@@ -54,10 +54,9 @@ button{margin:2px 4px 2px 0;padding:4px 10px;font-size:13px}
 </section>
 </main>
 <script>
-// ---------- math (ports of preprocess/geom.py and rerender_camera.py; the Python renderer is authoritative) ----------
-const NF = 81, W = 1280, H = 720, PALETTE = ['#E53935','#1E88E5','#43A047','#FDD835','#8E24AA','#FB8C00'];
-const KF = [0, 20, 40, 60, 80];
-const v3 = (x,y,z)=>[x,y,z], add=(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]], sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]];
+// ---------- math (ports of preprocess/geom.py, rerender_camera.py and render_authored.py; the Python renderer is authoritative) ----------
+const NF = 81, W = 1280, H = 720, PALETTE = ['#E53935','#1E88E5','#43A047','#FDD835','#8E24AA','#FB8C00'], LUT_N = 200;
+const add=(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]], sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]];
 const mul=(a,s)=>[a[0]*s,a[1]*s,a[2]*s], dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
 const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
 const norm=a=>Math.hypot(a[0],a[1],a[2]), unit=a=>mul(a,1/norm(a));
@@ -89,51 +88,73 @@ function hull(pts){ pts=pts.slice().sort((a,b)=>a[0]-b[0]||a[1]-b[1]); if(pts.le
   for(const p of pts){ while(lo.length>=2&&cr(lo[lo.length-2],lo[lo.length-1],p)<=0) lo.pop(); lo.push(p); }
   for(const p of pts.slice().reverse()){ while(up.length>=2&&cr(up[up.length-2],up[up.length-1],p)<=0) up.pop(); up.push(p); }
   return lo.slice(0,-1).concat(up.slice(0,-1)); }
+// ---------- Bezier paths (same algorithm as render_authored.py: Catmull-Rom auto tangents, arc-length-uniform speed) ----------
+// a person: {height, kf:[{frame, uv:[u,v], hin:null|[u,v], hout:null|[u,v]}]} sorted by frame; every person has its own keyframe frames
+const bez=(P,t)=>{ const a=(1-t)**3, b=3*(1-t)**2*t, c=3*(1-t)*t**2, d=t**3; return [a*P[0][0]+b*P[1][0]+c*P[2][0]+d*P[3][0], a*P[0][1]+b*P[1][1]+c*P[2][1]+d*P[3][1]]; };
+function autoHandles(p){ const P=p.kf.map(k=>k.uv), n=P.length; return p.kf.map((k,i)=>{ const prev=P[Math.max(i-1,0)], next=P[Math.min(i+1,n-1)], d=[(next[0]-prev[0])/6,(next[1]-prev[1])/6];
+  return {hout:k.hout||[P[i][0]+d[0],P[i][1]+d[1]], hin:k.hin||[P[i][0]-d[0],P[i][1]-d[1]]}; }); }
+function segmentsOf(p){ const hs=autoHandles(p), segs=[]; for(let i=0;i<p.kf.length-1;i++){ const P=[p.kf[i].uv, hs[i].hout, hs[i+1].hin, p.kf[i+1].uv];
+  const pts=[]; for(let j=0;j<=LUT_N;j++) pts.push(bez(P,j/LUT_N)); const cum=[0]; for(let j=1;j<pts.length;j++) cum.push(cum[j-1]+Math.hypot(pts[j][0]-pts[j-1][0], pts[j][1]-pts[j-1][1]));
+  segs.push({f0:p.kf[i].frame, f1:p.kf[i+1].frame, P, cum}); } return segs; }
+function posOnSegs(p, segs, f){ if(!segs.length||f<=segs[0].f0) return p.kf[0].uv.slice(); if(f>=segs[segs.length-1].f1) return p.kf[p.kf.length-1].uv.slice();
+  for(const s of segs){ if(s.f0<=f&&f<=s.f1){ const frac=s.f1>s.f0?(f-s.f0)/(s.f1-s.f0):0, L=s.cum[LUT_N]; if(L<=1e-12) return s.P[0].slice();
+    const target=frac*L; let j=0; while(j<LUT_N-1&&s.cum[j+1]<target) j++; const t=(j/LUT_N)+(target-s.cum[j])/(s.cum[j+1]-s.cum[j])*(1/LUT_N); return bez(s.P, Math.min(Math.max(t,0),1)); } } return p.kf[0].uv.slice(); }
+function posAt(p,f){ return posOnSegs(p, segmentsOf(p), f); }
 // ---------- scene state ----------
-let scene, sel=0, kfi=0, frame=0, playing=null;
+let scene, sel=0, kfi=0, frame=0, playing=null; const KF0=[0,20,40,60,80];
+const mk=(f,uv)=>({frame:f, uv:uv.slice(), hin:null, hout:null});
+const timesOf=p=>p?p.kf.map(k=>k.frame):KF0;
 function defaultScene(){ return {name:'my_scene', cam:{path:'static',height:0.69,pitch:2,yaw:0,focal:966},
-  people:[{height:1.0,kf:KF.map(f=>[2.6,0.5])},{height:0.95,kf:KF.map(f=>[2.6,-0.5])}]}; }
-function posAt(p,f){ // linear interpolation between the 5 keyframes
-  for(let i=0;i<KF.length-1;i++){ if(f<=KF[i+1]){ const t=(f-KF[i])/(KF[i+1]-KF[i]); const a=p.kf[i],b=p.kf[i+1];
-    return [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t]; } } return p.kf[KF.length-1]; }
-function expanded(){ // K, per-frame cameras, cylinder colours (by left-to-right order of feet in frame 0)
+  people:[{height:1.0,kf:KF0.map(f=>mk(f,[2.6,0.5]))},{height:0.95,kf:KF0.map(f=>mk(f,[2.6,-0.5]))}]}; }
+function expanded(){ // K, per-frame cameras, cylinder colours (by left-to-right order of feet in frame 0), path samples
   const cam=scene.cam, K=[cam.focal,cam.focal,W/2,H/2], c0=camera0(cam);
   const hs=scene.people.map(p=>p.height).sort((a,b)=>a-b), s=hs.length?(hs.length%2?hs[(hs.length-1)/2]:0.5*(hs[hs.length/2-1]+hs[hs.length/2])):1;
-  const mid=scene.people.length?scene.people.map(p=>posAt(p,40)).reduce((a,b)=>[a[0]+b[0],a[1]+b[1]],[0,0]).map(x=>x/scene.people.length):[3,0];
+  const paths=scene.people.map(p=>{ const segs=segmentsOf(p); return [...Array(NF).keys()].map(f=>posOnSegs(p,segs,f)); });
+  const mid=paths.length?paths.map(q=>q[40]).reduce((a,b)=>[a[0]+b[0],a[1]+b[1]],[0,0]).map(x=>x/paths.length):[3,0];
   const T=[mid[0],mid[1],0.5*s];
   const cams=[]; for(let k=0;k<NF;k++) cams.push(cameraPath(cam.path,c0.C,c0.R,T,s,k/(NF-1)));
-  const x0=scene.people.map((p,i)=>({i,x:project(K,cams[0],[...posAt(p,0),0]).x})).sort((a,b)=>a.x-b.x);
+  const x0=paths.map((q,i)=>({i,x:project(K,cams[0],[...q[0],0]).x})).sort((a,b)=>a.x-b.x);
   const color=[]; x0.forEach((e,rank)=>color[e.i]=PALETTE[rank%6]);
-  return {K,cams,s,color,T}; }
+  return {K,cams,s,color,T,paths}; }
 // ---------- top view ----------
 const top=document.getElementById('top'), tc=top.getContext('2d'); const SC=64, CX=268, CY=470;
 const toScreen=uv=>[CX-uv[1]*SC, CY-uv[0]*SC], toUV=xy=>[(CY-xy[1])/SC, (CX-xy[0])/SC];
-function drawTop(){ const {color,s}=expanded(); tc.fillStyle='#111'; tc.fillRect(0,0,top.width,top.height);
+function drawTop(){ const {color,s,paths}=expanded(); tc.fillStyle='#111'; tc.fillRect(0,0,top.width,top.height);
   tc.strokeStyle='#444'; tc.lineWidth=1; for(let a=-8;a<=8;a++){ const [x1,y1]=toScreen([a*s,-8*s]),[x2,y2]=toScreen([a*s,8*s]); tc.beginPath(); tc.moveTo(x1,y1); tc.lineTo(x2,y2); tc.stroke();
     const [x3,y3]=toScreen([-8*s,a*s]),[x4,y4]=toScreen([8*s,a*s]); tc.beginPath(); tc.moveTo(x3,y3); tc.lineTo(x4,y4); tc.stroke(); }
-  // camera icon + horizontal field of view
   const hf=Math.atan(W/2/scene.cam.focal), yaw=scene.cam.yaw*Math.PI/180;
   tc.strokeStyle='#9cf'; tc.beginPath(); tc.moveTo(CX,CY); tc.lineTo(CX+Math.sin(yaw-hf)*400,CY-Math.cos(yaw-hf)*400); tc.moveTo(CX,CY); tc.lineTo(CX+Math.sin(yaw+hf)*400,CY-Math.cos(yaw+hf)*400); tc.stroke();
   tc.fillStyle='#9cf'; tc.beginPath(); tc.arc(CX,CY,6,0,7); tc.fill(); tc.font='12px sans-serif'; tc.fillText('camera 0 (height '+scene.cam.height+')',CX+10,CY+14);
-  scene.people.forEach((p,i)=>{ // path through keyframes, keyframe dots, current-frame ghost, editable keyframe circle
-    tc.strokeStyle=color[i]; tc.lineWidth=1.5; tc.beginPath(); p.kf.forEach((uv,j)=>{ const [x,y]=toScreen(uv); j?tc.lineTo(x,y):tc.moveTo(x,y); }); tc.stroke();
-    p.kf.forEach((uv,j)=>{ const [x,y]=toScreen(uv); tc.fillStyle=color[i]; tc.beginPath(); tc.arc(x,y,3,0,7); tc.fill(); });
-    const g=toScreen(posAt(p,frame)); tc.strokeStyle='#fff'; tc.setLineDash([3,3]); tc.beginPath(); tc.arc(g[0],g[1],0.2*p.height*SC,0,7); tc.stroke(); tc.setLineDash([]);
-    const [x,y]=toScreen(p.kf[kfi]); tc.fillStyle=color[i]; tc.globalAlpha=0.85; tc.beginPath(); tc.arc(x,y,Math.max(8,0.2*p.height*SC),0,7); tc.fill(); tc.globalAlpha=1;
-    if(i===sel){ tc.strokeStyle='#fff'; tc.lineWidth=2; tc.stroke(); } tc.fillStyle='#000'; tc.fillText(String(i),x-3,y+4); }); }
+  scene.people.forEach((p,i)=>{ const hs=autoHandles(p);
+    // the curve (81 samples), keyframe dots, ghost at the current frame
+    tc.strokeStyle=color[i]; tc.lineWidth=1.5; tc.beginPath(); paths[i].forEach((uv,j)=>{ const [x,y]=toScreen(uv); j?tc.lineTo(x,y):tc.moveTo(x,y); }); tc.stroke();
+    p.kf.forEach((k,j)=>{ const [x,y]=toScreen(k.uv); tc.fillStyle=color[i]; tc.beginPath(); tc.arc(x,y,i===sel?4:3,0,7); tc.fill(); if(i!==sel){ tc.fillStyle='#ddd'; tc.font='10px sans-serif'; tc.fillText(String(k.frame),x+5,y-4); } });
+    const g=toScreen(paths[i][frame]); tc.strokeStyle='#fff'; tc.setLineDash([3,3]); tc.beginPath(); tc.arc(g[0],g[1],0.2*p.height*SC,0,7); tc.stroke(); tc.setLineDash([]);
+    if(i===sel){ // Bezier handles of the selected person: thin spokes + small circles (filled when user-set)
+      p.kf.forEach((k,j)=>{ const [x,y]=toScreen(k.uv); [['hin',j>0],['hout',j<p.kf.length-1]].forEach(([w,show])=>{ if(!show) return; const [hx,hy]=toScreen(hs[j][w]);
+        tc.strokeStyle='#bbb'; tc.lineWidth=1; tc.beginPath(); tc.moveTo(x,y); tc.lineTo(hx,hy); tc.stroke();
+        tc.beginPath(); tc.arc(hx,hy,4,0,7); if(k[w]){ tc.fillStyle='#fff'; tc.fill(); } else { tc.strokeStyle='#fff'; tc.stroke(); } }); }); }
+    const kk=p.kf[Math.min(i===sel?kfi:0,p.kf.length-1)]; const [x,y]=toScreen(kk.uv); tc.fillStyle=color[i]; tc.globalAlpha=0.85; tc.beginPath(); tc.arc(x,y,Math.max(8,0.2*p.height*SC),0,7); tc.fill(); tc.globalAlpha=1;
+    if(i===sel){ tc.strokeStyle='#fff'; tc.lineWidth=2; tc.stroke(); } tc.fillStyle='#000'; tc.font='12px sans-serif'; tc.fillText(String(i),x-3,y+4);
+    if(i===sel){ tc.fillStyle='#fff'; tc.fillText('f'+kk.frame, x+Math.max(8,0.2*p.height*SC)+3, y+4); } }); }
 let drag=null;
 top.addEventListener('mousedown',e=>{ const r=top.getBoundingClientRect(), m=[e.clientX-r.left,e.clientY-r.top];
-  let best=null; scene.people.forEach((p,i)=>{ const [x,y]=toScreen(p.kf[kfi]); const d=Math.hypot(x-m[0],y-m[1]); if(d<Math.max(10,0.2*p.height*SC)+4 && (!best||d<best.d)) best={i,d}; });
-  if(best){ sel=best.i; drag={i:best.i, start:toUV(m), orig:scene.people[best.i].kf.map(k=>k.slice())}; render(); } });
-window.addEventListener('mousemove',e=>{ if(!drag) return; const r=top.getBoundingClientRect(), uv=toUV([e.clientX-r.left,e.clientY-r.top]);
-  const d=[uv[0]-drag.start[0], uv[1]-drag.start[1]], p=scene.people[drag.i], all=document.getElementById('allkf').checked;
-  p.kf.forEach((k,j)=>{ if(all||j===kfi){ k[0]=+(drag.orig[j][0]+d[0]).toFixed(2); k[1]=+(drag.orig[j][1]+d[1]).toFixed(2); } }); render(); });
+  // 1) a handle of the selected person, 2) a keyframe circle of any person
+  if(scene.people[sel]){ const p=scene.people[sel], hs=autoHandles(p); for(let j=0;j<p.kf.length;j++) for(const w of ['hin','hout']){ if((w==='hin'&&j===0)||(w==='hout'&&j===p.kf.length-1)) continue;
+    const [hx,hy]=toScreen(hs[j][w]); if(Math.hypot(hx-m[0],hy-m[1])<7){ drag={handle:{j,w}, start:toUV(m), orig:hs[j][w].slice()}; return; } } }
+  let best=null; scene.people.forEach((p,i)=>p.kf.forEach((k,j)=>{ const [x,y]=toScreen(k.uv); const d=Math.hypot(x-m[0],y-m[1]); const rad=(i===sel&&j===kfi)?Math.max(10,0.2*p.height*SC)+4:9; if(d<rad && (!best||d<best.d)) best={i,j,d}; }));
+  if(best){ sel=best.i; kfi=best.j; drag={i:best.i, start:toUV(m), orig:scene.people[best.i].kf.map(k=>({uv:k.uv.slice(), hin:k.hin&&k.hin.slice(), hout:k.hout&&k.hout.slice()}))}; render(); } });
+window.addEventListener('mousemove',e=>{ if(!drag) return; const r=top.getBoundingClientRect(), uv=toUV([e.clientX-r.left,e.clientY-r.top]); const d=[uv[0]-drag.start[0], uv[1]-drag.start[1]];
+  if(drag.handle){ const k=scene.people[sel].kf[drag.handle.j]; k[drag.handle.w]=[+(drag.orig[0]+d[0]).toFixed(3), +(drag.orig[1]+d[1]).toFixed(3)]; render(); return; }
+  const p=scene.people[drag.i], all=document.getElementById('allkf').checked;
+  p.kf.forEach((k,j)=>{ if(all||j===kfi){ const o=drag.orig[j]; k.uv=[+(o.uv[0]+d[0]).toFixed(3), +(o.uv[1]+d[1]).toFixed(3)];   // handles travel with their keyframe
+    for(const w of ['hin','hout']) if(o[w]) k[w]=[+(o[w][0]+d[0]).toFixed(3), +(o[w][1]+d[1]).toFixed(3)]; } }); render(); });
 window.addEventListener('mouseup',()=>drag=null);
 // ---------- camera preview ----------
 const view=document.getElementById('view'), vc=view.getContext('2d');
-function drawView(){ const {K,cams,s,color}=expanded(); const cam=cams[frame], Kh=[K[0]/2,K[1]/2,K[2]/2,K[3]/2]; // half-size canvas
+function drawView(){ const {K,cams,s,color,paths}=expanded(); const cam=cams[frame], Kh=[K[0]/2,K[1]/2,K[2]/2,K[3]/2]; // half-size canvas
   vc.fillStyle='#000'; vc.fillRect(0,0,view.width,view.height);
-  const pts=scene.people.flatMap(p=>[posAt(p,0),posAt(p,20),posAt(p,40),posAt(p,60),posAt(p,80)]).concat([[dot(sub(cams[0].C,O),U),dot(sub(cams[0].C,O),V)]]);
+  const pts=paths.flat().concat([[dot(sub(cams[0].C,O),U),dot(sub(cams[0].C,O),V)]]);
   const u0=Math.min(...pts.map(q=>q[0]))-6*s, u1=Math.max(...pts.map(q=>q[0]))+6*s, v0=Math.min(...pts.map(q=>q[1]))-6*s, v1=Math.max(...pts.map(q=>q[1]))+6*s;
   const zmin=0.05*s; vc.strokeStyle='#fff'; vc.lineWidth=1;
   const poly=P3=>{ let run=[]; const flush=()=>{ if(run.length>1){ vc.beginPath(); run.forEach((q,i)=>i?vc.lineTo(q.x,q.y):vc.moveTo(q.x,q.y)); vc.stroke(); } run=[]; };
@@ -141,36 +162,43 @@ function drawView(){ const {K,cams,s,color}=expanded(); const cam=cams[frame], K
   const samp=[...Array(60).keys()].map(i=>i/59);
   for(let a=Math.floor(u0/s)*s;a<=u1+1e-9;a+=s) poly(samp.map(t=>[a, v0+(v1-v0)*t, 0]));
   for(let b=Math.floor(v0/s)*s;b<=v1+1e-9;b+=s) poly(samp.map(t=>[u0+(u1-u0)*t, b, 0]));
-  const order=scene.people.map((p,i)=>({i,d:-norm(sub([...posAt(p,frame),0],cam.C))})).sort((a,b)=>a.d-b.d);
-  for(const {i} of order){ const p=scene.people[i], c=posAt(p,frame), r=0.2*p.height, pts=[]; let bad=false;
+  paths.forEach((q,i)=>{ vc.fillStyle=color[i]; q.forEach((uv,k)=>{ if(k%2) return; const pr=project(Kh,cam,[uv[0],uv[1],0]); if(pr.z>zmin){ vc.beginPath(); vc.arc(pr.x,pr.y,1.5,0,7); vc.fill(); } }); });
+  const order=scene.people.map((p,i)=>({i,d:-norm(sub([...paths[i][frame],0],cam.C))})).sort((a,b)=>a.d-b.d);
+  for(const {i} of order){ const p=scene.people[i], c=paths[i][frame], r=0.2*p.height, pts=[]; let bad=false;
     for(let j=0;j<24;j++){ const a=2*Math.PI*j/24, base=[c[0]+r*Math.cos(a), c[1]+r*Math.sin(a), 0];
       for(const X of [base, add(base,mul(N,p.height))]){ const q=project(Kh,cam,X); if(q.z<=zmin) bad=true; pts.push([q.x,q.y]); } }
     if(bad) continue; const hh=hull(pts); vc.fillStyle=color[i]; vc.strokeStyle='#000'; vc.beginPath(); hh.forEach((q,j)=>j?vc.lineTo(q[0],q[1]):vc.moveTo(q[0],q[1])); vc.closePath(); vc.fill(); vc.stroke(); }
   vc.fillStyle='#9cf'; vc.font='12px sans-serif'; vc.fillText(scene.cam.path+'  frame '+frame,8,16); }
 // ---------- UI ----------
 function renderPeople(){ const {color}=expanded(); const el=document.getElementById('people'); el.innerHTML='';
-  scene.people.forEach((p,i)=>{ const d=document.createElement('div'); d.className=i===sel?'sel':''; d.innerHTML=`<span class="sw" style="background:${color[i]}"></span>person ${i} &nbsp; height <input type="number" step="0.05" min="0.3" max="3" value="${p.height}" data-i="${i}"> &nbsp; <span class="small">keyframe ${KF[kfi]}: u=${p.kf[kfi][0]} v=${p.kf[kfi][1]}</span>`;
-    d.onclick=()=>{sel=i; render();}; d.querySelector('input').onchange=e=>{ p.height=+e.target.value; render(); }; el.appendChild(d); });
-  const k=document.getElementById('kfs'); k.innerHTML=''; KF.forEach((f,j)=>{ const b=document.createElement('button'); b.textContent='frame '+f; b.style.fontWeight=j===kfi?'bold':'normal'; b.onclick=()=>{kfi=j; frame=f; document.getElementById('frame').value=f; render();}; k.appendChild(b); }); }
+  scene.people.forEach((p,i)=>{ const d=document.createElement('div'); d.className=i===sel?'sel':''; const k=p.kf[Math.min(i===sel?kfi:0,p.kf.length-1)]; d.innerHTML=`<span class="sw" style="background:${color[i]}"></span>person ${i} &nbsp; height <input type="number" step="0.05" min="0.3" max="3" value="${p.height}" data-i="${i}"> &nbsp; <span class="small">keyframes ${p.kf.map(q=>q.frame).join('/')} &nbsp; f${k.frame}: u=${k.uv[0]} v=${k.uv[1]}${(k.hin||k.hout)?' (custom handles)':''}</span>`;
+    d.onclick=()=>{sel=i; kfi=Math.min(kfi,p.kf.length-1); document.getElementById('kftimes').value=timesOf(p).join(','); render();}; d.querySelector('input').onchange=e=>{ p.height=+e.target.value; render(); }; el.appendChild(d); });
+  const kk=document.getElementById('kfs'); kk.innerHTML=''; timesOf(scene.people[sel]).forEach((f,j)=>{ const b=document.createElement('button'); b.textContent='frame '+f; b.style.fontWeight=j===kfi?'bold':'normal'; b.onclick=()=>{kfi=j; frame=f; document.getElementById('frame').value=f; render();}; kk.appendChild(b); }); }
 function render(){ drawTop(); drawView(); renderPeople(); document.getElementById('fval').textContent=frame; }
 function readCam(){ const g=id=>document.getElementById(id); scene.cam={path:g('path').value,height:+g('camh').value,pitch:+g('pitch').value,yaw:+g('yaw').value,focal:+g('focal').value}; scene.name=g('name').value; render(); }
 ['path','camh','pitch','yaw','focal','name'].forEach(id=>document.getElementById(id).addEventListener('input',readCam));
-function writeCam(){ const g=id=>document.getElementById(id); g('path').value=scene.cam.path; g('camh').value=scene.cam.height; g('pitch').value=scene.cam.pitch; g('yaw').value=scene.cam.yaw; g('focal').value=scene.cam.focal; g('name').value=scene.name; }
+function writeCam(){ const g=id=>document.getElementById(id); g('path').value=scene.cam.path; g('camh').value=scene.cam.height; g('pitch').value=scene.cam.pitch; g('yaw').value=scene.cam.yaw; g('focal').value=scene.cam.focal; g('name').value=scene.name; g('kftimes').value=timesOf(scene.people[sel]).join(','); }
+function retime(newTimes, people){ // keep the path's shape: resample the curve at the new keyframe frames (custom handles are dropped)
+  newTimes=[...new Set(newTimes.map(x=>Math.round(+x)).filter(x=>x>=0&&x<=80))].sort((a,b)=>a-b); if(newTimes.length<1) return;
+  people.forEach(p=>{ const segs=segmentsOf(p); p.kf=newTimes.map(f=>mk(f,posOnSegs(p,segs,f))); }); kfi=Math.min(kfi,newTimes.length-1); }
+document.getElementById('kftimes').addEventListener('change',e=>{ const all=document.getElementById('alltimes').checked; retime(e.target.value.split(/[\s,]+/).filter(Boolean), all?scene.people:(scene.people[sel]?[scene.people[sel]]:[])); writeCam(); render(); });
+document.getElementById('resethandles').onclick=()=>{ const p=scene.people[sel]; if(p) p.kf.forEach(k=>{k.hin=null;k.hout=null;}); render(); };
 document.getElementById('frame').oninput=e=>{ frame=+e.target.value; render(); };
 document.getElementById('play').onclick=e=>{ if(playing){ clearInterval(playing); playing=null; e.target.textContent='play'; return; }
   e.target.textContent='stop'; playing=setInterval(()=>{ frame=(frame+1)%NF; document.getElementById('frame').value=frame; render(); },1000/16); };
-document.getElementById('add').onclick=()=>{ if(scene.people.length>=6) return alert('at most 6 people (palette size, training range)'); const off=0.4*scene.people.length; scene.people.push({height:1.0,kf:KF.map(()=>[2.8+0.2*scene.people.length, -1.2+off])}); sel=scene.people.length-1; render(); };
-document.getElementById('del').onclick=()=>{ if(!scene.people.length) return; scene.people.splice(sel,1); sel=Math.max(0,sel-1); render(); };
-document.getElementById('near').onclick=()=>{ scene.people.forEach(p=>p.kf.forEach(k=>k[0]=+(k[0]-0.5).toFixed(2))); render(); };
-document.getElementById('far').onclick=()=>{ scene.people.forEach(p=>p.kf.forEach(k=>k[0]=+(k[0]+0.5).toFixed(2))); render(); };
+document.getElementById('add').onclick=()=>{ if(scene.people.length>=6) return alert('at most 6 people (palette size, training range)'); const off=0.4*scene.people.length; const times=timesOf(scene.people[sel]); scene.people.push({height:1.0,kf:times.map(f=>mk(f,[2.8+0.2*scene.people.length, -1.2+off]))}); sel=scene.people.length-1; kfi=0; render(); };
+document.getElementById('del').onclick=()=>{ if(!scene.people.length) return; scene.people.splice(sel,1); sel=Math.max(0,sel-1); kfi=0; render(); };
+const shift=d=>{ scene.people.forEach(p=>p.kf.forEach(k=>{ k.uv[0]=+(k.uv[0]+d).toFixed(3); for(const w of ['hin','hout']) if(k[w]) k[w][0]=+(k[w][0]+d).toFixed(3); })); render(); };
+document.getElementById('near').onclick=()=>shift(-0.5); document.getElementById('far').onclick=()=>shift(0.5);
 document.getElementById('reset').onclick=()=>{ scene=defaultScene(); sel=0; kfi=0; frame=0; writeCam(); render(); };
 function toSceneJson(){ return {version:1, name:scene.name, n_frames:NF, fps:16, width:W, height:H,
   plane:{origin:[0,0,0],u:[1,0,0],v:[0,1,0],normal:[0,0,1]},
-  cylinders:scene.people.map((p,i)=>({id:i,height:p.height,radius:+(0.2*p.height).toFixed(3),color_index:null,keyframes:KF.map((f,j)=>({frame:f,uv:p.kf[j]}))})),
+  cylinders:scene.people.map((p,i)=>({id:i,height:p.height,radius:+(0.2*p.height).toFixed(3),color_index:null,
+    keyframes:p.kf.map(k=>{ const o={frame:k.frame,uv:k.uv}; if(k.hin) o.handle_in=k.hin; if(k.hout) o.handle_out=k.hout; return o; })})),
   camera:{focal_px:scene.cam.focal,principal:[W/2,H/2],height:scene.cam.height,pitch_deg:scene.cam.pitch,yaw_deg:scene.cam.yaw,path:scene.cam.path}}; }
 function fromSceneJson(j){ const s={name:j.name||'scene',cam:{path:j.camera.path||'static',height:j.camera.height??0.69,pitch:j.camera.pitch_deg??2,yaw:j.camera.yaw_deg??0,focal:j.camera.focal_px??966},people:[]};
-  for(const c of j.cylinders){ const kf=c.keyframes.slice().sort((a,b)=>a.frame-b.frame); const at=f=>{ if(f<=kf[0].frame) return kf[0].uv.slice(); for(let i=0;i<kf.length-1;i++) if(f<=kf[i+1].frame){ const t=(f-kf[i].frame)/(kf[i+1].frame-kf[i].frame); return [kf[i].uv[0]+(kf[i+1].uv[0]-kf[i].uv[0])*t, kf[i].uv[1]+(kf[i+1].uv[1]-kf[i].uv[1])*t].map(x=>+x.toFixed(3)); } return kf[kf.length-1].uv.slice(); };
-    s.people.push({height:c.height??1, kf:KF.map(at)}); } return s; }
+  s.people=j.cylinders.map(c=>({height:c.height??1, kf:c.keyframes.slice().sort((a,b)=>a.frame-b.frame).map(k=>({frame:k.frame, uv:k.uv.slice(), hin:k.handle_in?k.handle_in.slice():null, hout:k.handle_out?k.handle_out.slice():null}))}));
+  return s; }
 document.getElementById('export').onclick=()=>{ const blob=new Blob([JSON.stringify(toSceneJson(),null,1)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=(scene.name||'scene')+'.json'; a.click(); };
 document.getElementById('import').onchange=e=>{ const f=e.target.files[0]; if(!f) return; f.text().then(t=>{ scene=fromSceneJson(JSON.parse(t)); sel=0; kfi=0; frame=0; writeCam(); render(); }); };
 scene=defaultScene(); writeCam(); render();

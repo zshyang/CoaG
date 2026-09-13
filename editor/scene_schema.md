@@ -10,7 +10,9 @@ One file describes everything the renderer needs: the ground plane, the cylinder
   "plane":  {"origin": [0, 0, 0], "u": [1, 0, 0], "v": [0, 1, 0], "normal": [0, 0, 1]},
   "cylinders": [
     {"id": 0, "height": 1.0, "radius": 0.2, "color_index": null,
-     "keyframes": [{"frame": 0, "uv": [2.6, 0.5]}, {"frame": 40, "uv": [3.0, 0.0]}, {"frame": 80, "uv": [2.6, -0.5]}]},
+     "keyframes": [{"frame": 0,  "uv": [2.6, 0.5],  "handle_out": [3.2, 0.5]},
+                   {"frame": 40, "uv": [3.0, 0.0],  "handle_in": [3.0, 0.3], "handle_out": [3.0, -0.3]},
+                   {"frame": 80, "uv": [2.6, -0.5], "handle_in": [3.2, -0.5]}]},
     {"id": 1, "height": 0.9, "keyframes": [{"frame": 0, "uv": [2.6, -0.5]}, {"frame": 80, "uv": [2.6, 0.5]}]}
   ],
   "camera": {"focal_px": 966, "principal": [640, 360], "height": 0.69, "pitch_deg": 2.0, "yaw_deg": 0.0, "path": "orbit"}
@@ -33,7 +35,7 @@ One file describes everything the renderer needs: the ground plane, the cylinder
 | `cylinders[].height` | height in subject heights | 1.0 |
 | `cylinders[].radius` | if omitted, `0.2 * height` (the training rule) | `0.2 * height` |
 | `cylinders[].color_index` | index into the 6-colour palette `#E53935 #1E88E5 #43A047 #FDD835 #8E24AA #FB8C00`; **leave null** to get the training rule: colours assigned by left-to-right order of the projected feet in frame 0 | null |
-| `cylinders[].keyframes` | list of `{frame, uv}`; positions between keyframes are linearly interpolated, held constant before the first and after the last | at least one keyframe |
+| `cylinders[].keyframes` | list of `{frame, uv, handle_in?, handle_out?}`; the path is a chain of cubic Bezier segments, see below; held constant before the first and after the last keyframe | at least one keyframe |
 | `camera.height` | camera 0 height above the ground in subject heights (training median 0.69, quartiles 0.56-0.85) | 0.69 |
 | `camera.pitch_deg` | tilt down of camera 0 in degrees (training median 2.2, quartiles -0.6..5.6) | 2 |
 | `camera.yaw_deg` | turn of camera 0 to its right, degrees | 0 |
@@ -41,6 +43,12 @@ One file describes everything the renderer needs: the ground plane, the cylinder
 | `camera.path` | `static`, `dolly_in`, `dolly_out`, `orbit`, `pan`, `crane`: the camera moves relative to camera 0 exactly as `rerender_camera.camera_paths` defines them (dolly = min(1.2 h, 40% of the distance to the subjects), orbit = -20..+20 deg around the subjects' centroid, pan = -12..+12 deg yaw, crane = start 1.5 h higher aimed at the centroid and descend) | static |
 
 There is no explicit camera distance: the origin is under camera 0 by convention, so "moving the camera back" is the same as moving every cylinder forward (the editor's *scene shift* buttons do exactly that). In the training data the subjects stood a median 2.6 subject heights in front of the camera at frame 0 (quartiles 2.1-3.4).
+
+## Trajectories: Bezier segments between keyframes
+
+Consecutive keyframes `i -> i+1` are joined by one cubic Bezier with control points `P0 = uv_i`, `P1 = handle_out_i`, `P2 = handle_in_{i+1}`, `P3 = uv_{i+1}`. Handles are **absolute plane coordinates**. A missing handle takes the Catmull-Rom tangent `P_i +/- (P_{i+1} - P_{i-1}) / 6` (endpoints duplicated), so a scene without handles is a smooth spline through its keyframes and a two-keyframe path is a straight line: files written before this field existed render unchanged.
+
+Timing: a person reaches keyframe `i` exactly at `frame_i` and moves at **constant speed along the curve within each segment** (arc length from a 200-sample table, identical in the editor and in `render_authored.py`). Speed is therefore set only by the keyframe frames, which every person chooses independently (the editor's `keyframe frames` field retimes the selected person, or all people with *apply to all people*).
 
 ## What the renderer writes (`render_authored.py scene.json out_dir`)
 

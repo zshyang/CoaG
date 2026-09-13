@@ -4,6 +4,8 @@
 Usage: .venv/bin/python editor/render_authored.py scene.json out_dir [--name NAME]
 Writes out_dir/<name>/{control.mp4, cams.json, cylinders.json, plane.json, sheet.png}.
 
+Trajectories: cubic Bezier segments between keyframes (Catmull-Rom tangents unless handle_in/handle_out are given),
+sampled at arc-length-uniform speed within each segment; the editor's JavaScript uses the identical sampler.
 All drawing, camera-path and projection code is imported from the step-4 pipeline so authored videos match the training
 distribution: rerender_camera.render / camera_paths / look_at / encode, geom.project, step4_render.PALETTE.
 """
@@ -17,6 +19,54 @@ from geom import project, cam_center
 from step4_render import PALETTE                   # colour order used for training (left-to-right)
 
 NF = rc.NF
+
+
+LUT_N = 200                                          # arc-length table resolution; the editor's JavaScript uses the same value
+
+
+def bezier(P, t):
+    """Cubic Bezier through control points P [4, 2] at parameters t [m]."""
+    t = np.asarray(t, float)[:, None]; a, b, c, d = (1 - t) ** 3, 3 * (1 - t) ** 2 * t, 3 * (1 - t) * t ** 2, t ** 3
+    return a * P[0] + b * P[1] + c * P[2] + d * P[3]
+
+
+def segments(keyframes):
+    """Keyframes (sorted by frame) -> list of (frame_start, frame_end, [P0, P1, P2, P3]). Handles default to Catmull-Rom
+    tangents (P_i +/- (P_{i+1} - P_{i-1}) / 6, endpoints duplicated), so a two-keyframe path is a straight line."""
+    kf = sorted(keyframes, key=lambda k: k['frame'])
+    P = np.array([k['uv'] for k in kf], float); n = len(P)
+    segs = []
+    for i in range(n - 1):
+        prev_i, next_i = P[max(i - 1, 0)], P[min(i + 1, n - 1)]
+        prev_j, next_j = P[max(i, 0)], P[min(i + 2, n - 1)]
+        h_out = np.array(kf[i]['handle_out'], float) if kf[i].get('handle_out') else P[i] + (next_i - prev_i) / 6
+        h_in = np.array(kf[i + 1]['handle_in'], float) if kf[i + 1].get('handle_in') else P[i + 1] - (next_j - prev_j) / 6
+        segs.append((float(kf[i]['frame']), float(kf[i + 1]['frame']), np.stack([P[i], h_out, h_in, P[i + 1]])))
+    return kf, segs
+
+
+def sample_path(keyframes, n_frames=NF):
+    """Position per frame: held before the first / after the last keyframe, otherwise along the Bezier segment at
+    arc-length-uniform speed (constant speed within a segment, so frame timing is the only speed control)."""
+    kf, segs = segments(keyframes)
+    out = np.zeros((n_frames, 2))
+    ts = np.linspace(0, 1, LUT_N + 1)
+    luts = []
+    for f0, f1, P in segs:
+        pts = bezier(P, ts); cum = np.concatenate([[0.0], np.cumsum(np.hypot(*(np.diff(pts, axis=0).T)))])
+        luts.append((f0, f1, P, cum))
+    for f in range(n_frames):
+        if not segs or f <= segs[0][0]:
+            out[f] = kf[0]['uv']; continue
+        if f >= segs[-1][1]:
+            out[f] = kf[-1]['uv']; continue
+        for f0, f1, P, cum in luts:
+            if f0 <= f <= f1:
+                frac = (f - f0) / (f1 - f0) if f1 > f0 else 0.0
+                L = cum[-1]
+                t = np.interp(frac * L, cum, ts) if L > 1e-12 else 0.0
+                out[f] = bezier(P, [t])[0]; break
+    return out
 
 
 def unit(x):
@@ -40,14 +90,11 @@ def expand_scene(scene):
     fwd = np.cos(pitch) * fwd - np.sin(pitch) * n
     C0 = o + float(cam.get('height', 0.69)) * n
     w2c0 = rc.look_at(C0, C0 + fwd, n); R0 = w2c0[:, :3]
-    # cylinders: positions from keyframes (linear, held at the ends), radius rule, palette by left-to-right order
+    # cylinders: positions sampled along the Bezier path through the keyframes (see sample_path), radius rule
     cyl = []
     for c in scene['cylinders']:
-        kf = sorted(c['keyframes'], key=lambda k: k['frame'])
-        fr = np.array([k['frame'] for k in kf], float); ab = np.array([k['uv'] for k in kf], float)
-        t = np.arange(NF, dtype=float)
-        a, b = np.interp(t, fr, ab[:, 0]), np.interp(t, fr, ab[:, 1])
-        pos = o[None] + a[:, None] * u[None] + b[:, None] * v[None]
+        ab = sample_path(c['keyframes'])                                     # [81, 2] plane coordinates (u, v)
+        pos = o[None] + ab[:, :1] * u[None] + ab[:, 1:] * v[None]
         h = float(c.get('height', 1.0))
         cyl.append(dict(track_id=c.get('id', len(cyl)), height=h, radius=float(c.get('radius') or 0.2 * h),
                         pos=pos.tolist(), color_index=c.get('color_index')))
