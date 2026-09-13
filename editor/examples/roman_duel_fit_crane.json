@@ -1,0 +1,132 @@
+{
+ "version": 1,
+ "name": "roman_duel_fit_crane",
+ "n_frames": 81,
+ "fps": 16,
+ "width": 1280,
+ "height": 720,
+ "plane": {
+  "origin": [
+   0,
+   0,
+   0
+  ],
+  "u": [
+   1,
+   0,
+   0
+  ],
+  "v": [
+   0,
+   1,
+   0
+  ],
+  "normal": [
+   0,
+   0,
+   1
+  ]
+ },
+ "cylinders": [
+  {
+   "id": 0,
+   "height": 1.0,
+   "radius": 0.2,
+   "color_index": null,
+   "keyframes": [
+    {
+     "frame": 0,
+     "uv": [
+      3.8,
+      0.7
+     ]
+    },
+    {
+     "frame": 20,
+     "uv": [
+      4.2,
+      0.55
+     ]
+    },
+    {
+     "frame": 40,
+     "uv": [
+      4.5,
+      -0.1
+     ]
+    },
+    {
+     "frame": 60,
+     "uv": [
+      4.2,
+      -0.6
+     ]
+    },
+    {
+     "frame": 80,
+     "uv": [
+      3.9,
+      -0.3
+     ]
+    }
+   ]
+  },
+  {
+   "id": 1,
+   "height": 1.0,
+   "radius": 0.2,
+   "color_index": null,
+   "keyframes": [
+    {
+     "frame": 0,
+     "uv": [
+      3.8,
+      -0.7
+     ]
+    },
+    {
+     "frame": 20,
+     "uv": [
+      4.2,
+      -0.55
+     ]
+    },
+    {
+     "frame": 40,
+     "uv": [
+      4.5,
+      0.1
+     ]
+    },
+    {
+     "frame": 60,
+     "uv": [
+      4.2,
+      0.6
+     ]
+    },
+    {
+     "frame": 80,
+     "uv": [
+      3.9,
+      0.3
+     ]
+    }
+   ]
+  }
+ ],
+ "camera": {
+  "focal_px": 800.7561645507812,
+  "principal": [
+   640,
+   360
+  ],
+  "height": 0.69,
+  "pitch_deg": -10.322025746567306,
+  "yaw_deg": 0,
+  "path": "crane",
+  "fitted_from": "/private/tmp/claude-501/-Users-george-yang-workspace/3f872ff3-9cb1-4387-a5bc-380aea43b025/scratchpad/colosseum/colosseum_ref.png",
+  "anchor_first_frame": true
+ },
+ "note": "camera from fit_background.py (GeoCalib) on colosseum_ref.png; cylinders shifted +1.5 u so the feet stay in frame under the upward-looking camera"
+}

@@ -40,6 +40,8 @@ One file describes everything the renderer needs: the ground plane, the cylinder
 | `camera.pitch_deg` | tilt down of camera 0 in degrees (training median 2.2, quartiles -0.6..5.6) | 2 |
 | `camera.yaw_deg` | turn of camera 0 to its right, degrees | 0 |
 | `camera.focal_px` | focal length in pixels for `width` | 966 |
+| `camera.fit` | optional, the JSON printed by `fit_background.py` for the background photo (`focal_px`, `pitch_deg`, `horizon_y`, `roll_deg`, in the 1280x720 frame). Bookkeeping only: the renderer reads `focal_px`/`pitch_deg` from the camera fields above, which the editor sets from the fit on import; the editor draws `horizon_y` as the "photo horizon" line. Kept verbatim across import/export. | absent |
+| `camera.background_name` | optional, file name of the background photo loaded in the editor (the image itself is not stored) | absent |
 | `camera.path` | `static`, `dolly_in`, `dolly_out`, `orbit`, `pan`, `crane`: the camera moves relative to camera 0 exactly as `rerender_camera.camera_paths` defines them (dolly = min(1.2 h, 40% of the distance to the subjects), orbit = -20..+20 deg around the subjects' centroid, pan = -12..+12 deg yaw, crane = start 1.5 h higher aimed at the centroid and descend) | static |
 
 There is no explicit camera distance: the origin is under camera 0 by convention, so "moving the camera back" is the same as moving every cylinder forward (the editor's *scene shift* buttons do exactly that). In the training data the subjects stood a median 2.6 subject heights in front of the camera at frame 0 (quartiles 2.1-3.4).

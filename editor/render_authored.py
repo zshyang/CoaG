@@ -103,6 +103,16 @@ def expand_scene(scene):
     T = np.array([c['pos'][40] for c in cyl]).mean(0) + 0.5 * s_grid * n if cyl else o + 3 * s_grid * u
     path = cam.get('path', 'static'); assert path in rc.NAMES, f'camera.path must be one of {rc.NAMES}'
     w2cs = rc.camera_paths(path, C0, R0, n, o, u, v, T, s_grid)
+    if cam.get('anchor_first_frame'):
+        # Camera fitted to a background photograph (fit_background.py): frame 0 must keep the photo's orientation R0, so the
+        # re-aiming presets are replaced by rigid moves that start at (C0, R0): orbit 0..+40 deg about the vertical through T,
+        # pan 0..+24 deg yaw, crane rises 1.5 h with the orientation kept; static and dolly already start at R0.
+        ts = np.linspace(0, 1, rc.NF); w2cs = []
+        for t in ts:
+            if path == 'orbit': Rm = rc.rot_axis(n, np.radians(40 * t)); w2cs.append(rc.w2c_from(R0 @ Rm.T, T + Rm @ (C0 - T)))
+            elif path == 'pan': Rm = rc.rot_axis(n, np.radians(24 * t)); w2cs.append(rc.w2c_from(R0 @ Rm.T, C0))
+            elif path == 'crane': w2cs.append(rc.w2c_from(R0, C0 + t * 1.5 * s_grid * n))
+            else: w2cs.append(rc.camera_paths(path, C0, R0, n, o, u, v, T, s_grid)[int(round(t * (rc.NF - 1)))])
     # colours: training assigns the palette by the left-to-right order of the feet in the first frame
     if cyl:
         x0 = project(K, w2cs[0], np.array([c['pos'][0] for c in cyl]))[0][:, 0]

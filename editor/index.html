@@ -43,6 +43,12 @@ button{margin:2px 4px 2px 0;padding:4px 10px;font-size:13px}
     <label>yaw right (deg) <input type="number" id="yaw" step="1" value="0"></label>
     <label>focal (px @1280) <input type="number" id="focal" step="10" value="966"></label>
   </div>
+  <div class="row">
+    <label>background image <input type="file" id="bg" accept="image/*"></label>
+    <label><input type="checkbox" id="showbg" checked> show background</label>
+    <label>import camera fit <input type="file" id="fit" accept=".json"></label>
+    <span id="fitinfo" class="small"></span>
+  </div>
   <div class="row small">Training data: camera height median 0.69 (0.56–0.85), pitch 2° (−1..6°), focal 966 px (865–1082), subjects 2.6 units ahead (2.1–3.4). Path magnitudes are fixed by the renderer (dolly ≤ 1.2 units, orbit ±20°, pan ±12°, crane from +1.5 units). People move at constant speed between consecutive keyframes.</div>
   <div class="row">
     <label>scene name <input type="text" id="name" value="my_scene"></label>
@@ -101,10 +107,10 @@ function posOnSegs(p, segs, f){ if(!segs.length||f<=segs[0].f0) return p.kf[0].u
     const target=frac*L; let j=0; while(j<LUT_N-1&&s.cum[j+1]<target) j++; const t=(j/LUT_N)+(target-s.cum[j])/(s.cum[j+1]-s.cum[j])*(1/LUT_N); return bez(s.P, Math.min(Math.max(t,0),1)); } } return p.kf[0].uv.slice(); }
 function posAt(p,f){ return posOnSegs(p, segmentsOf(p), f); }
 // ---------- scene state ----------
-let scene, sel=0, kfi=0, frame=0, playing=null; const KF0=[0,20,40,60,80];
+let scene, sel=0, kfi=0, frame=0, playing=null, bgImage=null, bgName=null; const KF0=[0,20,40,60,80];
 const mk=(f,uv)=>({frame:f, uv:uv.slice(), hin:null, hout:null});
 const timesOf=p=>p?p.kf.map(k=>k.frame):KF0;
-function defaultScene(){ return {name:'my_scene', cam:{path:'static',height:0.69,pitch:2,yaw:0,focal:966},
+function defaultScene(){ bgImage=null; bgName=null; return {name:'my_scene', cam:{path:'static',height:0.69,pitch:2,yaw:0,focal:966,fit:null},
   people:[{height:1.0,kf:KF0.map(f=>mk(f,[2.6,0.5]))},{height:0.95,kf:KF0.map(f=>mk(f,[2.6,-0.5]))}]}; }
 function expanded(){ // K, per-frame cameras, cylinder colours (by left-to-right order of feet in frame 0), path samples
   const cam=scene.cam, K=[cam.focal,cam.focal,W/2,H/2], c0=camera0(cam);
@@ -138,7 +144,7 @@ function drawTop(){ const {color,s,paths}=expanded(); tc.fillStyle='#111'; tc.fi
     if(i===sel){ tc.strokeStyle='#fff'; tc.lineWidth=2; tc.stroke(); } tc.fillStyle='#000'; tc.font='12px sans-serif'; tc.fillText(String(i),x-3,y+4);
     if(i===sel){ tc.fillStyle='#fff'; tc.fillText('f'+kk.frame, x+Math.max(8,0.2*p.height*SC)+3, y+4); } }); }
 let drag=null;
-top.addEventListener('mousedown',e=>{ const r=topc.getBoundingClientRect(), m=[e.clientX-r.left,e.clientY-r.top];
+topc.addEventListener('mousedown',e=>{ const r=topc.getBoundingClientRect(), m=[e.clientX-r.left,e.clientY-r.top];
   // 1) a handle of the selected person, 2) a keyframe circle of any person
   if(scene.people[sel]){ const p=scene.people[sel], hs=autoHandles(p); for(let j=0;j<p.kf.length;j++) for(const w of ['hin','hout']){ if((w==='hin'&&j===0)||(w==='hout'&&j===p.kf.length-1)) continue;
     const [hx,hy]=toScreen(hs[j][w]); if(Math.hypot(hx-m[0],hy-m[1])<7){ drag={handle:{j,w}, start:toUV(m), orig:hs[j][w].slice()}; return; } } }
@@ -151,12 +157,15 @@ window.addEventListener('mousemove',e=>{ if(!drag) return; const r=topc.getBound
     for(const w of ['hin','hout']) if(o[w]) k[w]=[+(o[w][0]+d[0]).toFixed(3), +(o[w][1]+d[1]).toFixed(3)]; } }); render(); });
 window.addEventListener('mouseup',()=>drag=null);
 // ---------- camera preview ----------
+function horizonY(K, cam){ const rn=matvec(cam.R, N); return Math.abs(rn[1])<1e-9?null:K[3]-K[1]*rn[2]/rn[1]; }   // geom.horizon_y: vanishing line of the ground plane at the principal column
 const view=document.getElementById('view'), vc=view.getContext('2d');
 function drawView(){ const {K,cams,s,color,paths}=expanded(); const cam=cams[frame], Kh=[K[0]/2,K[1]/2,K[2]/2,K[3]/2]; // half-size canvas
   vc.fillStyle='#000'; vc.fillRect(0,0,view.width,view.height);
+  const showBg=bgImage&&document.getElementById('showbg').checked;
+  if(showBg){ const sc=Math.min(view.width/bgImage.width, view.height/bgImage.height), w=bgImage.width*sc, h=bgImage.height*sc; vc.drawImage(bgImage,(view.width-w)/2,(view.height-h)/2,w,h); }   // object-fit: contain
   const pts=paths.flat().concat([[dot(sub(cams[0].C,O),U),dot(sub(cams[0].C,O),V)]]);
   const u0=Math.min(...pts.map(q=>q[0]))-6*s, u1=Math.max(...pts.map(q=>q[0]))+6*s, v0=Math.min(...pts.map(q=>q[1]))-6*s, v1=Math.max(...pts.map(q=>q[1]))+6*s;
-  const zmin=0.05*s; vc.strokeStyle='#fff'; vc.lineWidth=1;
+  const zmin=0.05*s; vc.strokeStyle=showBg?'rgba(255,255,255,0.55)':'#fff'; vc.lineWidth=1;
   const poly=P3=>{ let run=[]; const flush=()=>{ if(run.length>1){ vc.beginPath(); run.forEach((q,i)=>i?vc.lineTo(q.x,q.y):vc.moveTo(q.x,q.y)); vc.stroke(); } run=[]; };
     P3.forEach(X=>{ const q=project(Kh,cam,X); if(q.z>zmin) run.push(q); else flush(); }); flush(); };
   const samp=[...Array(60).keys()].map(i=>i/59);
@@ -168,6 +177,8 @@ function drawView(){ const {K,cams,s,color,paths}=expanded(); const cam=cams[fra
     for(let j=0;j<24;j++){ const a=2*Math.PI*j/24, base=[c[0]+r*Math.cos(a), c[1]+r*Math.sin(a), 0];
       for(const X of [base, add(base,mul(N,p.height))]){ const q=project(Kh,cam,X); if(q.z<=zmin) bad=true; pts.push([q.x,q.y]); } }
     if(bad) continue; const hh=hull(pts); vc.fillStyle=color[i]; vc.strokeStyle='#000'; vc.beginPath(); hh.forEach((q,j)=>j?vc.lineTo(q[0],q[1]):vc.moveTo(q[0],q[1])); vc.closePath(); vc.fill(); vc.stroke(); }
+  const gh=horizonY(Kh,cam); if(gh!==null&&gh>=0&&gh<=view.height){ vc.strokeStyle='#9cf'; vc.setLineDash([2,4]); vc.beginPath(); vc.moveTo(0,gh); vc.lineTo(view.width,gh); vc.stroke(); vc.setLineDash([]); vc.fillStyle='#9cf'; vc.font='11px sans-serif'; vc.fillText('grid horizon '+(2*gh).toFixed(0)+' px', view.width-120, gh-4); }
+  if(scene.cam.fit&&scene.cam.fit.horizon_y!=null){ const y=scene.cam.fit.horizon_y/2; vc.strokeStyle='#ff5'; vc.setLineDash([8,6]); vc.beginPath(); vc.moveTo(0,y); vc.lineTo(view.width,y); vc.stroke(); vc.setLineDash([]); vc.fillStyle='#ff5'; vc.font='11px sans-serif'; vc.fillText('photo horizon '+(+scene.cam.fit.horizon_y).toFixed(0)+' px', 8, y-4); }
   vc.fillStyle='#9cf'; vc.font='12px sans-serif'; vc.fillText(scene.cam.path+'  frame '+frame,8,16); }
 // ---------- UI ----------
 function renderPeople(){ const {color}=expanded(); const el=document.getElementById('people'); el.innerHTML='';
@@ -175,14 +186,21 @@ function renderPeople(){ const {color}=expanded(); const el=document.getElementB
     d.onclick=()=>{sel=i; kfi=Math.min(kfi,p.kf.length-1); document.getElementById('kftimes').value=timesOf(p).join(','); render();}; d.querySelector('input').onchange=e=>{ p.height=+e.target.value; render(); }; el.appendChild(d); });
   const kk=document.getElementById('kfs'); kk.innerHTML=''; timesOf(scene.people[sel]).forEach((f,j)=>{ const b=document.createElement('button'); b.textContent='frame '+f; b.style.fontWeight=j===kfi?'bold':'normal'; b.onclick=()=>{kfi=j; frame=f; document.getElementById('frame').value=f; render();}; kk.appendChild(b); }); }
 function render(){ drawTop(); drawView(); renderPeople(); document.getElementById('fval').textContent=frame; }
-function readCam(){ const g=id=>document.getElementById(id); scene.cam={path:g('path').value,height:+g('camh').value,pitch:+g('pitch').value,yaw:+g('yaw').value,focal:+g('focal').value}; scene.name=g('name').value; render(); }
+function readCam(){ const g=id=>document.getElementById(id); scene.cam={path:g('path').value,height:+g('camh').value,pitch:+g('pitch').value,yaw:+g('yaw').value,focal:+g('focal').value,fit:scene.cam.fit||null}; scene.name=g('name').value; render(); }
+function fitInfo(){ const f=scene.cam.fit; const el=document.getElementById('fitinfo'); if(!f){ el.textContent=bgName?('background: '+bgName):''; return; }
+  el.textContent=(bgName?'background: '+bgName+' · ':'')+'fit: focal '+(+f.focal_px).toFixed(0)+' px, pitch '+(+f.pitch_deg).toFixed(1)+'°, horizon '+(f.horizon_y!=null?(+f.horizon_y).toFixed(0)+' px':'n/a')+(f.roll_deg!=null?', roll '+(+f.roll_deg).toFixed(1)+'° (ignored)':''); }
 ['path','camh','pitch','yaw','focal','name'].forEach(id=>document.getElementById(id).addEventListener('input',readCam));
-function writeCam(){ const g=id=>document.getElementById(id); g('path').value=scene.cam.path; g('camh').value=scene.cam.height; g('pitch').value=scene.cam.pitch; g('yaw').value=scene.cam.yaw; g('focal').value=scene.cam.focal; g('name').value=scene.name; g('kftimes').value=timesOf(scene.people[sel]).join(','); }
+function writeCam(){ const g=id=>document.getElementById(id); g('path').value=scene.cam.path; g('camh').value=scene.cam.height; g('pitch').value=scene.cam.pitch; g('yaw').value=scene.cam.yaw; g('focal').value=scene.cam.focal; g('name').value=scene.name; g('kftimes').value=timesOf(scene.people[sel]).join(','); fitInfo(); }
 function retime(newTimes, people){ // keep the path's shape: resample the curve at the new keyframe frames (custom handles are dropped)
   newTimes=[...new Set(newTimes.map(x=>Math.round(+x)).filter(x=>x>=0&&x<=80))].sort((a,b)=>a-b); if(newTimes.length<1) return;
   people.forEach(p=>{ const segs=segmentsOf(p); p.kf=newTimes.map(f=>mk(f,posOnSegs(p,segs,f))); }); kfi=Math.min(kfi,newTimes.length-1); }
 document.getElementById('kftimes').addEventListener('change',e=>{ const all=document.getElementById('alltimes').checked; retime(e.target.value.split(/[\s,]+/).filter(Boolean), all?scene.people:(scene.people[sel]?[scene.people[sel]]:[])); writeCam(); render(); });
 document.getElementById('resethandles').onclick=()=>{ const p=scene.people[sel]; if(p) p.kf.forEach(k=>{k.hin=null;k.hout=null;}); render(); };
+document.getElementById('showbg').onchange=()=>render();
+document.getElementById('bg').onchange=e=>{ const f=e.target.files[0]; if(!f) return; const im=new Image(); im.onload=()=>{ im._name=f.name; bgImage=im; bgName=f.name; fitInfo(); render(); }; im.src=URL.createObjectURL(f); };
+document.getElementById('fit').onchange=e=>{ const f=e.target.files[0]; if(!f) return; f.text().then(t=>{ const j=JSON.parse(t); applyFit(j); writeCam(); render(); }); };
+function applyFit(j){ // JSON from fit_background.py: focal_px, pitch_deg (tilt below the horizon), horizon_y, roll_deg; camera height is left to the user
+  scene.cam.fit=j; if(j.focal_px!=null) scene.cam.focal=+j.focal_px; if(j.pitch_deg!=null) scene.cam.pitch=+j.pitch_deg; }
 document.getElementById('frame').oninput=e=>{ frame=+e.target.value; render(); };
 document.getElementById('play').onclick=e=>{ if(playing){ clearInterval(playing); playing=null; e.target.textContent='play'; return; }
   e.target.textContent='stop'; playing=setInterval(()=>{ frame=(frame+1)%NF; document.getElementById('frame').value=frame; render(); },1000/16); };
@@ -195,8 +213,9 @@ function toSceneJson(){ return {version:1, name:scene.name, n_frames:NF, fps:16,
   plane:{origin:[0,0,0],u:[1,0,0],v:[0,1,0],normal:[0,0,1]},
   cylinders:scene.people.map((p,i)=>({id:i,height:p.height,radius:+(0.2*p.height).toFixed(3),color_index:null,
     keyframes:p.kf.map(k=>{ const o={frame:k.frame,uv:k.uv}; if(k.hin) o.handle_in=k.hin; if(k.hout) o.handle_out=k.hout; return o; })})),
-  camera:{focal_px:scene.cam.focal,principal:[W/2,H/2],height:scene.cam.height,pitch_deg:scene.cam.pitch,yaw_deg:scene.cam.yaw,path:scene.cam.path}}; }
-function fromSceneJson(j){ const s={name:j.name||'scene',cam:{path:j.camera.path||'static',height:j.camera.height??0.69,pitch:j.camera.pitch_deg??2,yaw:j.camera.yaw_deg??0,focal:j.camera.focal_px??966},people:[]};
+  camera:Object.assign({focal_px:scene.cam.focal,principal:[W/2,H/2],height:scene.cam.height,pitch_deg:scene.cam.pitch,yaw_deg:scene.cam.yaw,path:scene.cam.path}, scene.cam.fit?{fit:scene.cam.fit}:{}, bgName?{background_name:bgName}:{})}; }
+function fromSceneJson(j){ const s={name:j.name||'scene',cam:{path:j.camera.path||'static',height:j.camera.height??0.69,pitch:j.camera.pitch_deg??2,yaw:j.camera.yaw_deg??0,focal:j.camera.focal_px??966,fit:j.camera.fit||null},people:[]};
+  bgName=j.camera.background_name||null; if(bgImage&&bgName!==bgImage._name) bgImage=null;
   s.people=j.cylinders.map(c=>({height:c.height??1, kf:c.keyframes.slice().sort((a,b)=>a.frame-b.frame).map(k=>({frame:k.frame, uv:k.uv.slice(), hin:k.handle_in?k.handle_in.slice():null, hout:k.handle_out?k.handle_out.slice():null}))}));
   return s; }
 document.getElementById('export').onclick=()=>{ const blob=new Blob([JSON.stringify(toSceneJson(),null,1)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=(scene.name||'scene')+'.json'; a.click(); };
