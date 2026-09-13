@@ -1,11 +1,11 @@
 #!/bin/bash
 # One inference case on the pod. Usage (on pod):
-#   CID=c0599 CAM=static LORA_LOW=/workspace/out/.../low.safetensors [LORA_HIGH=...] [PROMPT="..."] [REF=/path.png] [TAG=name] ./run_infer_case.sh
+#   CID=c0599 CAM=static LORA_LOW=/workspace/out/.../low.safetensors [LORA_HIGH=...] [PROMPT="..."] [REF=/path.png] [CV=/path/control.mp4] [TAG=name] ./run_infer_case.sh
 # Defaults: control = /workspace/data/infer_inputs/$CID/control_$CAM.mp4 (CAM=orig -> the training control video),
 #           ref = /workspace/data/train_data/ref/$CID.png, prompt = the clip's caption (holdout_captions.json), 480x832, 81 frames.
 set -e
 WORK=${WORK:-/workspace}; CID=${CID:?}; CAM=${CAM:-orig}; TAG=${TAG:-$CID_$CAM}
-if [ "$CAM" = orig ]; then CV=$WORK/data/train_data/control/$CID.mp4; else CV=$WORK/data/infer_inputs/$CID/control_$CAM.mp4; fi
+if [ -n "$CV" ]; then :; elif [ "$CAM" = orig ]; then CV=$WORK/data/train_data/control/$CID.mp4; else CV=$WORK/data/infer_inputs/$CID/control_$CAM.mp4; fi   # CV overrides (authored control videos)
 export CONTROL_VIDEO=$CV
 export REF_IMAGE=${REF:-$WORK/data/train_data/ref/$CID.png}
 export PROMPT=${PROMPT:-$(python3 -c "import json,sys; print(json.load(open('$WORK/data/infer_inputs/holdout_captions.json'))['$CID'])")}

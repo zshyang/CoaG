@@ -42,6 +42,16 @@ Result: 1935 training tuples (control video, background image, caption, target v
 
 Measured on 8 x H100 80GB (DeepSpeed ZeRO-2, batch 1 per GPU): 27 s per step, 70 GB per GPU, 241 steps per expert, about 1 h 50 min per expert. See `train/RUNLOG.md` for the full log and `train/TRAIN_DESIGN.md` for the design.
 
+## Author your own scene (the editor)
+
+`editor/index.html` is a single-file web editor: place 1–6 people on the ground grid from a top view, drag them to keyframes at frames 0/20/40/60/80, set each person's height, pick a camera path (static, dolly in / out, orbit, pan, crane) with height, pitch, yaw and focal length, and watch the live perspective preview. Export `scene.json`, then
+
+```
+.venv/bin/python editor/render_authored.py scene.json out/my_scene
+```
+
+renders `control.mp4` with the same code path as the training data (`preprocess/rerender_camera.py`, `preprocess/geom.py`, the step-4 palette), so authored videos sit inside the training distribution. Feed `control.mp4`, a background image and a prompt to `train/run_infer_case.sh` (`CV=... REF=... PROMPT=...`). Two examples with rendered outputs are in `editor/examples/`; the format is documented in `editor/scene_schema.md`.
+
 ## Camera control
 
 ![camera paths](docs/assets/figures/F6_camera_paths.png)
@@ -51,6 +61,7 @@ Six authored camera paths on the same cylinders, caption and reference image. Do
 ## Repository layout
 
 ```
+editor/       hand-authoring: index.html (top view + camera presets -> scene.json), render_authored.py (-> control.mp4 via the step-4 renderer)
 captions/     seed sampler + LLM writer/validator; captions/out/captions.jsonl = the 2000 captions
 videogen/     Veo 3.1 Fast batch generation on fal.ai (resumable, sidecar json per clip)
 preprocess/   PREPROCESS_DESIGN.md (steps 1-4), geom.py (RANSAC plane, horizon), step4_render.py (cylinders + control video),
