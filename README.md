@@ -7,7 +7,7 @@
 *Left: the control video (three of 81 frames). Right: generated videos. The three rows share the geometry and differ only in the text (row 2) or the background reference image (row 3).*
 
 - Project page with videos: `docs/index.html` (GitHub Pages once the repository is public)
-- Paper draft: [`paper/CoaG_draft_2026-09-13.pdf`](paper/CoaG_draft_2026-09-13.pdf)
+- Paper draft: [`docs/CoaG_draft.pdf`](docs/CoaG_draft.pdf)
 - Weights, training data: Hugging Face links coming (see [Data](#data) and [Model](#model))
 
 Status: research preview, September 2026. Personal project by Zhangsihao Yang, started 2026-08-31; the preprocessing steps 1-3 were run by Mengyi Shan (UW). <!-- TODO George: confirm author/contributor line before going public -->
@@ -77,7 +77,7 @@ preprocess/   PREPROCESS_DESIGN.md (steps 1-4), geom.py (RANSAC plane, horizon),
               rerender_camera.py (authored camera paths), make_train_manifest.py, geocalib_horizon.py, QC summaries
 train/        setup_pod.sh, apply_patch.sh + patched/, train_gate3.sh, train_full.sh, run_infer_case.sh, run_compare.sh,
               snapshot_env.sh, fetch_from_pod.sh, TRAIN_DESIGN.md, RUNLOG.md
-paper/        the paper draft (PDF)
+docs/         project page, its assets (sample videos, figures) and the paper draft PDF
 docs/         project page and its assets (sample videos, figures)
 ```
 
