@@ -117,9 +117,9 @@ function expanded(){ // K, per-frame cameras, cylinder colours (by left-to-right
   const color=[]; x0.forEach((e,rank)=>color[e.i]=PALETTE[rank%6]);
   return {K,cams,s,color,T,paths}; }
 // ---------- top view ----------
-const top=document.getElementById('top'), tc=top.getContext('2d'); const SC=64, CX=268, CY=470;
+const topc=document.getElementById('top'), tc=topc.getContext('2d'); const SC=64, CX=268, CY=470;
 const toScreen=uv=>[CX-uv[1]*SC, CY-uv[0]*SC], toUV=xy=>[(CY-xy[1])/SC, (CX-xy[0])/SC];
-function drawTop(){ const {color,s,paths}=expanded(); tc.fillStyle='#111'; tc.fillRect(0,0,top.width,top.height);
+function drawTop(){ const {color,s,paths}=expanded(); tc.fillStyle='#111'; tc.fillRect(0,0,topc.width,topc.height);
   tc.strokeStyle='#444'; tc.lineWidth=1; for(let a=-8;a<=8;a++){ const [x1,y1]=toScreen([a*s,-8*s]),[x2,y2]=toScreen([a*s,8*s]); tc.beginPath(); tc.moveTo(x1,y1); tc.lineTo(x2,y2); tc.stroke();
     const [x3,y3]=toScreen([-8*s,a*s]),[x4,y4]=toScreen([8*s,a*s]); tc.beginPath(); tc.moveTo(x3,y3); tc.lineTo(x4,y4); tc.stroke(); }
   const hf=Math.atan(W/2/scene.cam.focal), yaw=scene.cam.yaw*Math.PI/180;
@@ -138,13 +138,13 @@ function drawTop(){ const {color,s,paths}=expanded(); tc.fillStyle='#111'; tc.fi
     if(i===sel){ tc.strokeStyle='#fff'; tc.lineWidth=2; tc.stroke(); } tc.fillStyle='#000'; tc.font='12px sans-serif'; tc.fillText(String(i),x-3,y+4);
     if(i===sel){ tc.fillStyle='#fff'; tc.fillText('f'+kk.frame, x+Math.max(8,0.2*p.height*SC)+3, y+4); } }); }
 let drag=null;
-top.addEventListener('mousedown',e=>{ const r=top.getBoundingClientRect(), m=[e.clientX-r.left,e.clientY-r.top];
+top.addEventListener('mousedown',e=>{ const r=topc.getBoundingClientRect(), m=[e.clientX-r.left,e.clientY-r.top];
   // 1) a handle of the selected person, 2) a keyframe circle of any person
   if(scene.people[sel]){ const p=scene.people[sel], hs=autoHandles(p); for(let j=0;j<p.kf.length;j++) for(const w of ['hin','hout']){ if((w==='hin'&&j===0)||(w==='hout'&&j===p.kf.length-1)) continue;
     const [hx,hy]=toScreen(hs[j][w]); if(Math.hypot(hx-m[0],hy-m[1])<7){ drag={handle:{j,w}, start:toUV(m), orig:hs[j][w].slice()}; return; } } }
   let best=null; scene.people.forEach((p,i)=>p.kf.forEach((k,j)=>{ const [x,y]=toScreen(k.uv); const d=Math.hypot(x-m[0],y-m[1]); const rad=(i===sel&&j===kfi)?Math.max(10,0.2*p.height*SC)+4:9; if(d<rad && (!best||d<best.d)) best={i,j,d}; }));
   if(best){ sel=best.i; kfi=best.j; drag={i:best.i, start:toUV(m), orig:scene.people[best.i].kf.map(k=>({uv:k.uv.slice(), hin:k.hin&&k.hin.slice(), hout:k.hout&&k.hout.slice()}))}; render(); } });
-window.addEventListener('mousemove',e=>{ if(!drag) return; const r=top.getBoundingClientRect(), uv=toUV([e.clientX-r.left,e.clientY-r.top]); const d=[uv[0]-drag.start[0], uv[1]-drag.start[1]];
+window.addEventListener('mousemove',e=>{ if(!drag) return; const r=topc.getBoundingClientRect(), uv=toUV([e.clientX-r.left,e.clientY-r.top]); const d=[uv[0]-drag.start[0], uv[1]-drag.start[1]];
   if(drag.handle){ const k=scene.people[sel].kf[drag.handle.j]; k[drag.handle.w]=[+(drag.orig[0]+d[0]).toFixed(3), +(drag.orig[1]+d[1]).toFixed(3)]; render(); return; }
   const p=scene.people[drag.i], all=document.getElementById('allkf').checked;
   p.kf.forEach((k,j)=>{ if(all||j===kfi){ const o=drag.orig[j]; k.uv=[+(o.uv[0]+d[0]).toFixed(3), +(o.uv[1]+d[1]).toFixed(3)];   // handles travel with their keyframe
