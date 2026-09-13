@@ -1,0 +1,1354 @@
+[
+ {
+  "name": "granite civic plaza",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "cobblestone old town square",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "riverside concrete esplanade",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "museum forecourt with fountain",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "painted intersection plaza",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "stadium concourse plaza",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "cathedral forecourt square",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "bank district sunken plaza",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "glass-canopied transit plaza",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "university library plaza",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "brick-paved village square",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "train station forecourt",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "pedestrianized shopping street",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "closed city street",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "tree-lined boulevard median walk",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "colonnaded arcade walkway",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "elevated linear park walkway",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "raised park terrace",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "skatepark flat bottom",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "film studio backlot street",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "military parade ground",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "retro drive-in theater lot",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "tiled mediterranean courtyard",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "corporate campus quad",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "apartment complex inner courtyard",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "monastery cloister courtyard",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "rooftop terrace with skyline",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "hotel rooftop pool deck",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "industrial loft rooftop",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "rooftop helipad",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "chili drying rooftop terrace",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "seaside wooden promenade",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "beachfront mosaic promenade",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "canal-side quay walkway",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "waterfront festival pier deck",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "bicycle highway lane",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "parking garage top level",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "underground parking garage",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "reflective",
+  "low_ceiling": true
+ },
+ {
+  "name": "empty surface parking lot",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "closed highway overpass",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "stone arch bridge roadway",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "vehicle tunnel closed to traffic",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": true
+ },
+ {
+  "name": "pedestrian underpass",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "reflective",
+  "low_ceiling": true
+ },
+ {
+  "name": "tunnel under construction",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": true
+ },
+ {
+  "name": "toll plaza lanes",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "race circuit pit lane",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "hydroelectric dam crest roadway",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "empty airport runway",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "airport apron near hangar",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "small grass airstrip",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "outdoor railway platform",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "decommissioned subway platform",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "rail freight depot platform",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "bus depot parking hall",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "container yard between stacks",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "container port quay",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "cargo ship weather deck",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "shipyard dry dock floor",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "car factory assembly floor",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "empty distribution warehouse aisle",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "aircraft hangar floor",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "steel mill rolling floor",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "foundry casting hall",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "textile mill weaving hall",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "pharmaceutical cleanroom corridor",
+  "indoor": true,
+  "size": "small",
+  "audience_natural": false,
+  "surface": "reflective",
+  "low_ceiling": true
+ },
+ {
+  "name": "power plant turbine hall",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "shipyard fabrication shed",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "abandoned brick factory hall",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "data center server hall",
+  "indoor": true,
+  "size": "small",
+  "audience_natural": false,
+  "surface": "reflective",
+  "low_ceiling": true
+ },
+ {
+  "name": "cold storage freezer warehouse",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": true
+ },
+ {
+  "name": "bonded whisky warehouse aisle",
+  "indoor": true,
+  "size": "small",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": true
+ },
+ {
+  "name": "truck loading dock bay",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "scrap metal recycling yard",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "grain silo loading yard",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "coal power plant stockyard",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "oil refinery service road",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "open-pit quarry bench",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "marble quarry cutting floor",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "sand and gravel pit floor",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "timber sawmill yard",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "solar farm access strip",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "wind turbine base pad",
+  "indoor": false,
+  "size": "small",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "high-rise construction site deck",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "underground concrete bunker hall",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": true
+ },
+ {
+  "name": "indoor basketball court",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "outdoor asphalt basketball court",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "beach volleyball court",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "tennis hard court",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "red clay tennis court",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "grass tennis lawn",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "badminton hall court",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "artificial turf soccer pitch",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "natural grass football stadium",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "baseball infield diamond",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "cricket pitch center strip",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "athletics track oval",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "indoor sprint track",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "velodrome infield",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "wrestling mat room",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "judo dojo",
+  "indoor": true,
+  "size": "small",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "gymnastics floor area",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "crossfit box gym",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "yoga studio",
+  "indoor": true,
+  "size": "small",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "ballet rehearsal studio",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "roller skating rink",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "indoor archery range",
+  "indoor": true,
+  "size": "small",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "indoor skate park",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "swimming pool deck",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "empty ice rink off-season",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "outdoor amphitheater stage",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "proscenium theater stage",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "open-air festival main stage",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "film sound stage",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "hotel lobby",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "art gallery hall",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "grand ballroom",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "convention center exhibition hall",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "courthouse great hall",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "cathedral nave",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "reflective",
+  "low_ceiling": false
+ },
+ {
+  "name": "commercial glass greenhouse aisle",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "nightclub led dance floor",
+  "indoor": true,
+  "size": "small",
+  "audience_natural": true,
+  "surface": "reflective",
+  "low_ceiling": true
+ },
+ {
+  "name": "salt flat",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "dry lakebed playa",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "tidal sand flat",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "water",
+  "low_ceiling": false
+ },
+ {
+  "name": "wide firm sand beach",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "black volcanic sand beach",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "white coral sand beach",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "windswept snowfield",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "short-grass prairie",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "alpine meadow bench",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "forest clearing",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "flat rock shelf at shoreline",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "water",
+  "low_ceiling": false
+ },
+ {
+  "name": "granite slab plateau",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "sandstone slickrock bench",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "basalt lava field pavement",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "mesa top plateau",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "desert pavement flat",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "red sand interdune flat",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "gypsum white sand flat",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "gravel outwash plain",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "dry riverbed sand bar",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "savanna grassland",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "chalk downland plateau",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "volcanic ash plain",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "bamboo grove floor",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "coastal salt evaporation pans",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "water",
+  "low_ceiling": false
+ },
+ {
+  "name": "packed-earth farmyard",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "stone-paved threshing floor",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "coffee bean drying patio",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "drained rice paddy after harvest",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "wheat stubble field",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "sun-baked clay brick yard",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "wooden barn floor",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "vineyard tractor row",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "olive grove terrace flat",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "tea plantation walkway",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "lavender field pathway",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "sunflower field edge strip",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "apple orchard grass floor",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "rural gravel crossroads",
+  "indoor": false,
+  "size": "medium",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "hot air balloon launch field",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "boxing ring",
+  "indoor": true,
+  "size": "small",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "mma octagon cage",
+  "indoor": true,
+  "size": "small",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "fencing hall piste",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "squash court",
+  "indoor": true,
+  "size": "small",
+  "audience_natural": true,
+  "surface": "normal",
+  "low_ceiling": false
+ },
+ {
+  "name": "ice hockey rink",
+  "indoor": true,
+  "size": "large",
+  "audience_natural": true,
+  "surface": "ice",
+  "low_ceiling": false
+ },
+ {
+  "name": "frozen lake surface",
+  "indoor": false,
+  "size": "large",
+  "audience_natural": false,
+  "surface": "ice",
+  "low_ceiling": false
+ },
+ {
+  "name": "curling sheet",
+  "indoor": true,
+  "size": "medium",
+  "audience_natural": true,
+  "surface": "ice",
+  "low_ceiling": false
+ },
+ {
+  "name": "farmhouse wooden veranda",
+  "indoor": true,
+  "size": "small",
+  "audience_natural": false,
+  "surface": "normal",
+  "low_ceiling": false
+ }
+]

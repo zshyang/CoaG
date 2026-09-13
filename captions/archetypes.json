@@ -1,0 +1,650 @@
+[
+ {
+  "name": "granite civic plaza",
+  "ground": "polished granite pavers"
+ },
+ {
+  "name": "cobblestone old town square",
+  "ground": "rounded cobblestones"
+ },
+ {
+  "name": "riverside concrete esplanade",
+  "ground": "broad concrete slabs"
+ },
+ {
+  "name": "museum forecourt with fountain",
+  "ground": "pale limestone"
+ },
+ {
+  "name": "painted intersection plaza",
+  "ground": "painted asphalt"
+ },
+ {
+  "name": "stadium concourse plaza",
+  "ground": "stamped concrete"
+ },
+ {
+  "name": "cathedral forecourt square",
+  "ground": "sandstone paving"
+ },
+ {
+  "name": "bank district sunken plaza",
+  "ground": "black granite"
+ },
+ {
+  "name": "glass-canopied transit plaza",
+  "ground": "grey porcelain tile"
+ },
+ {
+  "name": "university library plaza",
+  "ground": "herringbone brick"
+ },
+ {
+  "name": "brick-paved village square",
+  "ground": "red brick pavers"
+ },
+ {
+  "name": "train station forecourt",
+  "ground": "dark basalt setts"
+ },
+ {
+  "name": "pedestrianized shopping street",
+  "ground": "granite setts"
+ },
+ {
+  "name": "closed city street",
+  "ground": "asphalt with crosswalk"
+ },
+ {
+  "name": "tree-lined boulevard median walk",
+  "ground": "compacted fine gravel"
+ },
+ {
+  "name": "colonnaded arcade walkway",
+  "ground": "terrazzo"
+ },
+ {
+  "name": "elevated linear park walkway",
+  "ground": "tapered concrete planks"
+ },
+ {
+  "name": "raised park terrace",
+  "ground": "crushed decomposed granite"
+ },
+ {
+  "name": "skatepark flat bottom",
+  "ground": "smooth cast concrete"
+ },
+ {
+  "name": "film studio backlot street",
+  "ground": "painted asphalt pavement"
+ },
+ {
+  "name": "military parade ground",
+  "ground": "flat grey asphalt"
+ },
+ {
+  "name": "retro drive-in theater lot",
+  "ground": "cracked asphalt with gravel"
+ },
+ {
+  "name": "tiled mediterranean courtyard",
+  "ground": "patterned ceramic tile"
+ },
+ {
+  "name": "corporate campus quad",
+  "ground": "mown lawn"
+ },
+ {
+  "name": "apartment complex inner courtyard",
+  "ground": "interlocking concrete pavers"
+ },
+ {
+  "name": "monastery cloister courtyard",
+  "ground": "worn flagstone"
+ },
+ {
+  "name": "rooftop terrace with skyline",
+  "ground": "concrete pavers"
+ },
+ {
+  "name": "hotel rooftop pool deck",
+  "ground": "light travertine tile"
+ },
+ {
+  "name": "industrial loft rooftop",
+  "ground": "tar-and-gravel roof membrane"
+ },
+ {
+  "name": "rooftop helipad",
+  "ground": "painted concrete circle"
+ },
+ {
+  "name": "chili drying rooftop terrace",
+  "ground": "whitewashed cement"
+ },
+ {
+  "name": "seaside wooden promenade",
+  "ground": "weathered wood decking"
+ },
+ {
+  "name": "beachfront mosaic promenade",
+  "ground": "black-and-white mosaic"
+ },
+ {
+  "name": "canal-side quay walkway",
+  "ground": "grey cobble setts"
+ },
+ {
+  "name": "waterfront festival pier deck",
+  "ground": "painted steel plate"
+ },
+ {
+  "name": "bicycle highway lane",
+  "ground": "red painted tarmac"
+ },
+ {
+  "name": "parking garage top level",
+  "ground": "painted concrete"
+ },
+ {
+  "name": "underground parking garage",
+  "ground": "epoxy-coated concrete"
+ },
+ {
+  "name": "empty surface parking lot",
+  "ground": "faded asphalt"
+ },
+ {
+  "name": "closed highway overpass",
+  "ground": "lane-marked asphalt"
+ },
+ {
+  "name": "stone arch bridge roadway",
+  "ground": "cobblestone"
+ },
+ {
+  "name": "vehicle tunnel closed to traffic",
+  "ground": "asphalt under sodium lights"
+ },
+ {
+  "name": "pedestrian underpass",
+  "ground": "tiled concrete"
+ },
+ {
+  "name": "tunnel under construction",
+  "ground": "raw shotcrete floor"
+ },
+ {
+  "name": "toll plaza lanes",
+  "ground": "concrete with lane paint"
+ },
+ {
+  "name": "race circuit pit lane",
+  "ground": "striped tarmac"
+ },
+ {
+  "name": "hydroelectric dam crest roadway",
+  "ground": "concrete with white lane lines"
+ },
+ {
+  "name": "empty airport runway",
+  "ground": "grooved asphalt"
+ },
+ {
+  "name": "airport apron near hangar",
+  "ground": "painted concrete"
+ },
+ {
+  "name": "small grass airstrip",
+  "ground": "mown turf"
+ },
+ {
+  "name": "outdoor railway platform",
+  "ground": "tactile-edged concrete"
+ },
+ {
+  "name": "decommissioned subway platform",
+  "ground": "tiled concrete platform"
+ },
+ {
+  "name": "rail freight depot platform",
+  "ground": "weathered concrete"
+ },
+ {
+  "name": "bus depot parking hall",
+  "ground": "asphalt with bay stripes"
+ },
+ {
+  "name": "container yard between stacks",
+  "ground": "concrete paver blocks"
+ },
+ {
+  "name": "container port quay",
+  "ground": "reinforced concrete"
+ },
+ {
+  "name": "cargo ship weather deck",
+  "ground": "painted steel deck"
+ },
+ {
+  "name": "shipyard dry dock floor",
+  "ground": "wet concrete"
+ },
+ {
+  "name": "car factory assembly floor",
+  "ground": "epoxy-coated concrete"
+ },
+ {
+  "name": "empty distribution warehouse aisle",
+  "ground": "polished concrete"
+ },
+ {
+  "name": "aircraft hangar floor",
+  "ground": "painted grey concrete"
+ },
+ {
+  "name": "steel mill rolling floor",
+  "ground": "steel plate"
+ },
+ {
+  "name": "foundry casting hall",
+  "ground": "packed black sand"
+ },
+ {
+  "name": "textile mill weaving hall",
+  "ground": "wooden plank floor"
+ },
+ {
+  "name": "power plant turbine hall",
+  "ground": "checker plate steel"
+ },
+ {
+  "name": "shipyard fabrication shed",
+  "ground": "rust-stained steel plate"
+ },
+ {
+  "name": "abandoned brick factory hall",
+  "ground": "broken brick tile"
+ },
+ {
+  "name": "cold storage freezer warehouse",
+  "ground": "frosted concrete"
+ },
+ {
+  "name": "truck loading dock bay",
+  "ground": "sealed concrete"
+ },
+ {
+  "name": "scrap metal recycling yard",
+  "ground": "oil-stained concrete"
+ },
+ {
+  "name": "grain silo loading yard",
+  "ground": "dusty concrete slab"
+ },
+ {
+  "name": "coal power plant stockyard",
+  "ground": "black coal dust ground"
+ },
+ {
+  "name": "oil refinery service road",
+  "ground": "gravel road"
+ },
+ {
+  "name": "open-pit quarry bench",
+  "ground": "compacted rock aggregate"
+ },
+ {
+  "name": "marble quarry cutting floor",
+  "ground": "white sawn marble"
+ },
+ {
+  "name": "sand and gravel pit floor",
+  "ground": "packed sand"
+ },
+ {
+  "name": "timber sawmill yard",
+  "ground": "sawdust-covered dirt"
+ },
+ {
+  "name": "solar farm access strip",
+  "ground": "compacted red dirt"
+ },
+ {
+  "name": "high-rise construction site deck",
+  "ground": "raw poured concrete slab"
+ },
+ {
+  "name": "underground concrete bunker hall",
+  "ground": "bare damp concrete"
+ },
+ {
+  "name": "indoor basketball court",
+  "ground": "polished maple hardwood"
+ },
+ {
+  "name": "outdoor asphalt basketball court",
+  "ground": "painted black asphalt"
+ },
+ {
+  "name": "beach volleyball court",
+  "ground": "raked fine sand"
+ },
+ {
+  "name": "tennis hard court",
+  "ground": "acrylic-coated concrete"
+ },
+ {
+  "name": "red clay tennis court",
+  "ground": "crushed red brick clay"
+ },
+ {
+  "name": "grass tennis lawn",
+  "ground": "close-mown turf"
+ },
+ {
+  "name": "badminton hall court",
+  "ground": "green vinyl mat"
+ },
+ {
+  "name": "artificial turf soccer pitch",
+  "ground": "green synthetic turf"
+ },
+ {
+  "name": "natural grass football stadium",
+  "ground": "striped natural grass"
+ },
+ {
+  "name": "baseball infield diamond",
+  "ground": "raked red dirt"
+ },
+ {
+  "name": "cricket pitch center strip",
+  "ground": "rolled dry clay"
+ },
+ {
+  "name": "athletics track oval",
+  "ground": "red rubber tartan"
+ },
+ {
+  "name": "indoor sprint track",
+  "ground": "blue polyurethane track"
+ },
+ {
+  "name": "velodrome infield",
+  "ground": "flat grey concrete"
+ },
+ {
+  "name": "wrestling mat room",
+  "ground": "red foam mat"
+ },
+ {
+  "name": "judo dojo",
+  "ground": "green tatami mats"
+ },
+ {
+  "name": "gymnastics floor area",
+  "ground": "spring carpet floor"
+ },
+ {
+  "name": "crossfit box gym",
+  "ground": "black rubber tiles"
+ },
+ {
+  "name": "yoga studio",
+  "ground": "light bamboo flooring"
+ },
+ {
+  "name": "ballet rehearsal studio",
+  "ground": "black marley vinyl"
+ },
+ {
+  "name": "roller skating rink",
+  "ground": "glossy maple hardwood"
+ },
+ {
+  "name": "indoor skate park",
+  "ground": "smooth plywood"
+ },
+ {
+  "name": "swimming pool deck",
+  "ground": "non-slip ceramic tile"
+ },
+ {
+  "name": "empty ice rink off-season",
+  "ground": "painted concrete slab"
+ },
+ {
+  "name": "outdoor amphitheater stage",
+  "ground": "flat concrete stage"
+ },
+ {
+  "name": "proscenium theater stage",
+  "ground": "black painted plywood"
+ },
+ {
+  "name": "open-air festival main stage",
+  "ground": "aluminium stage deck"
+ },
+ {
+  "name": "film sound stage",
+  "ground": "matte black floor"
+ },
+ {
+  "name": "hotel lobby",
+  "ground": "polished marble"
+ },
+ {
+  "name": "art gallery hall",
+  "ground": "pale oak plank"
+ },
+ {
+  "name": "grand ballroom",
+  "ground": "parquet wood"
+ },
+ {
+  "name": "convention center exhibition hall",
+  "ground": "grey commercial carpet"
+ },
+ {
+  "name": "courthouse great hall",
+  "ground": "checkerboard marble"
+ },
+ {
+  "name": "cathedral nave",
+  "ground": "stone flagstones"
+ },
+ {
+  "name": "commercial glass greenhouse aisle",
+  "ground": "wide concrete walkway"
+ },
+ {
+  "name": "salt flat",
+  "ground": "cracked white salt crust"
+ },
+ {
+  "name": "dry lakebed playa",
+  "ground": "cracked pale clay"
+ },
+ {
+  "name": "tidal sand flat",
+  "ground": "rippled wet sand"
+ },
+ {
+  "name": "wide firm sand beach",
+  "ground": "packed damp sand"
+ },
+ {
+  "name": "black volcanic sand beach",
+  "ground": "black volcanic sand"
+ },
+ {
+  "name": "white coral sand beach",
+  "ground": "fine white coral sand"
+ },
+ {
+  "name": "windswept snowfield",
+  "ground": "crusted wind-packed snow"
+ },
+ {
+  "name": "short-grass prairie",
+  "ground": "cropped dry grass"
+ },
+ {
+  "name": "alpine meadow bench",
+  "ground": "short flowering turf"
+ },
+ {
+  "name": "forest clearing",
+  "ground": "packed earth and leaf litter"
+ },
+ {
+  "name": "flat rock shelf at shoreline",
+  "ground": "smooth wave-worn rock"
+ },
+ {
+  "name": "granite slab plateau",
+  "ground": "bare grey granite"
+ },
+ {
+  "name": "sandstone slickrock bench",
+  "ground": "smooth red sandstone"
+ },
+ {
+  "name": "basalt lava field pavement",
+  "ground": "flat dark basalt"
+ },
+ {
+  "name": "mesa top plateau",
+  "ground": "hardpan with sparse scrub"
+ },
+ {
+  "name": "desert pavement flat",
+  "ground": "tight-packed dark pebbles"
+ },
+ {
+  "name": "red sand interdune flat",
+  "ground": "firm red sand"
+ },
+ {
+  "name": "gypsum white sand flat",
+  "ground": "powdery white gypsum sand"
+ },
+ {
+  "name": "gravel outwash plain",
+  "ground": "fine grey gravel"
+ },
+ {
+  "name": "dry riverbed sand bar",
+  "ground": "pale river sand"
+ },
+ {
+  "name": "savanna grassland",
+  "ground": "short golden grass"
+ },
+ {
+  "name": "chalk downland plateau",
+  "ground": "short springy turf on chalk"
+ },
+ {
+  "name": "volcanic ash plain",
+  "ground": "fine grey ash"
+ },
+ {
+  "name": "bamboo grove floor",
+  "ground": "packed earth with dry leaves"
+ },
+ {
+  "name": "coastal salt evaporation pans",
+  "ground": "crusted white salt flat"
+ },
+ {
+  "name": "packed-earth farmyard",
+  "ground": "packed dirt"
+ },
+ {
+  "name": "stone-paved threshing floor",
+  "ground": "flagstone"
+ },
+ {
+  "name": "coffee bean drying patio",
+  "ground": "smooth concrete slab"
+ },
+ {
+  "name": "drained rice paddy after harvest",
+  "ground": "cracked dry mud"
+ },
+ {
+  "name": "wheat stubble field",
+  "ground": "straw stubble"
+ },
+ {
+  "name": "sun-baked clay brick yard",
+  "ground": "fired clay tiles"
+ },
+ {
+  "name": "wooden barn floor",
+  "ground": "wide plank wood"
+ },
+ {
+  "name": "vineyard tractor row",
+  "ground": "compacted soil"
+ },
+ {
+  "name": "olive grove terrace flat",
+  "ground": "dusty pale earth"
+ },
+ {
+  "name": "tea plantation walkway",
+  "ground": "trodden red earth"
+ },
+ {
+  "name": "lavender field pathway",
+  "ground": "chalky gravel"
+ },
+ {
+  "name": "sunflower field edge strip",
+  "ground": "dry cracked soil"
+ },
+ {
+  "name": "apple orchard grass floor",
+  "ground": "clover and grass"
+ },
+ {
+  "name": "rural gravel crossroads",
+  "ground": "packed gravel"
+ },
+ {
+  "name": "hot air balloon launch field",
+  "ground": "mown short grass"
+ },
+ {
+  "name": "boxing ring",
+  "ground": "canvas mat"
+ },
+ {
+  "name": "mma octagon cage",
+  "ground": "vinyl-covered mat"
+ },
+ {
+  "name": "fencing hall piste",
+  "ground": "metallic strip on rubber floor"
+ },
+ {
+  "name": "squash court",
+  "ground": "pale hardwood"
+ },
+ {
+  "name": "ice hockey rink",
+  "ground": "white ice with painted lines"
+ },
+ {
+  "name": "frozen lake surface",
+  "ground": "snow-dusted ice"
+ },
+ {
+  "name": "curling sheet",
+  "ground": "pebbled ice"
+ }
+]

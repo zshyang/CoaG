@@ -1,0 +1,2162 @@
+{
+ "regions": [
+  "Tokyo, Japan",
+  "Kyoto, Japan",
+  "Seoul, South Korea",
+  "Shanghai, China",
+  "Guilin karst countryside, China",
+  "Inner Mongolian steppe",
+  "Tibetan plateau",
+  "Hanoi, Vietnam",
+  "Bangkok, Thailand",
+  "Bali, Indonesia",
+  "Mumbai, India",
+  "Rajasthan desert, India",
+  "Dubai, UAE",
+  "Istanbul, Turkey",
+  "Cairo and the Giza desert edge, Egypt",
+  "Marrakech, Morocco",
+  "Nairobi, Kenya",
+  "Cape Town, South Africa",
+  "Lagos, Nigeria",
+  "Athens and the Greek islands",
+  "Rome, Italy",
+  "Venice, Italy",
+  "Barcelona, Spain",
+  "Lisbon, Portugal",
+  "Paris, France",
+  "Amsterdam, Netherlands",
+  "Berlin, Germany",
+  "the Swiss Alps",
+  "the Norwegian fjords",
+  "Reykjavik and the Icelandic coast",
+  "the Scottish Highlands",
+  "London, England",
+  "Moscow, Russia",
+  "the Siberian taiga",
+  "New York City, USA",
+  "Miami, USA",
+  "Chicago, USA",
+  "Los Angeles, USA",
+  "Utah salt flats and red-rock desert, USA",
+  "Alaska, USA",
+  "Vancouver, Canada",
+  "Mexico City, Mexico",
+  "Havana, Cuba",
+  "Rio de Janeiro, Brazil",
+  "Buenos Aires, Argentina",
+  "Patagonia",
+  "the Andean highlands, Peru",
+  "Sydney, Australia",
+  "the Australian outback",
+  "an Antarctic research station"
+ ],
+ "weather_outdoor": [
+  {
+   "name": "golden hour",
+   "hostile": false
+  },
+  {
+   "name": "blue hour just after sunset",
+   "hostile": false
+  },
+  {
+   "name": "harsh midday sun",
+   "hostile": false
+  },
+  {
+   "name": "soft overcast daylight",
+   "hostile": false
+  },
+  {
+   "name": "light rain with a wet reflective ground",
+   "hostile": false
+  },
+  {
+   "name": "misty sunrise",
+   "hostile": false
+  },
+  {
+   "name": "dusty hazy afternoon wind",
+   "hostile": false
+  },
+  {
+   "name": "dramatic stormy sky right before rain",
+   "hostile": false
+  },
+  {
+   "name": "heavy snowfall",
+   "hostile": true
+  },
+  {
+   "name": "thick drifting fog",
+   "hostile": true
+  },
+  {
+   "name": "neon-lit night",
+   "hostile": true
+  },
+  {
+   "name": "floodlit night",
+   "hostile": true
+  }
+ ],
+ "lighting_indoor": [
+  "bright even overhead lighting",
+  "low moody practice lights with deep shadows",
+  "harsh floodlights from one side",
+  "shafts of daylight through high windows",
+  "neon and colored stage lights",
+  "warm tungsten work lamps"
+ ],
+ "env_motion": [
+  {
+   "name": "flags and loose fabric whipping in strong wind",
+   "where": "outdoor"
+  },
+  {
+   "name": "leaves or petals swirling low across the ground",
+   "where": "outdoor"
+  },
+  {
+   "name": "rain streaks and splashing puddles",
+   "where": "outdoor"
+  },
+  {
+   "name": "snowflakes drifting through beams of light",
+   "where": "outdoor"
+  },
+  {
+   "name": "distant traffic light trails streaking past",
+   "where": "outdoor"
+  },
+  {
+   "name": "waves crashing in the background",
+   "where": "outdoor"
+  },
+  {
+   "name": "steam or smoke drifting from vents",
+   "where": "both"
+  },
+  {
+   "name": "fireworks bursting in the far sky",
+   "where": "outdoor"
+  },
+  {
+   "name": "fog banks rolling through",
+   "where": "outdoor"
+  },
+  {
+   "name": "confetti or paper scraps tumbling in the air",
+   "where": "both"
+  },
+  {
+   "name": "sand or dust blowing low across the ground",
+   "where": "outdoor"
+  },
+  {
+   "name": "flickering neon and sweeping searchlights",
+   "where": "both"
+  },
+  {
+   "name": "haze machine fog and moving spotlights",
+   "where": "indoor"
+  },
+  {
+   "name": "loose paper and dust stirred by big fans",
+   "where": "indoor"
+  }
+ ],
+ "vibes": [
+  "epic cinematic",
+  "gritty documentary",
+  "playful upbeat commercial",
+  "moody neo-noir",
+  "bright energetic sports ad",
+  "dreamy music-video"
+ ],
+ "motion_ranges": {
+  "in_place": 0.3,
+  "short_range": 0.4,
+  "long_range": 0.3
+ },
+ "action_families": [
+  {
+   "name": "basketball crossover and between-the-legs dribble combos",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": true,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": true,
+   "min_people": 1,
+   "props": "basketball"
+  },
+  {
+   "name": "basketball driving layups and euro-step finishes",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": true,
+   "needs_space": true,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": true,
+   "min_people": 1,
+   "props": "basketball (hoop optional)",
+   "needs_headroom": true,
+   "archetype_any": [
+    "basketball court"
+   ]
+  },
+  {
+   "name": "soccer ball juggling with feet, thighs and head",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "soccer ball"
+  },
+  {
+   "name": "soccer step-overs and sharp dribble cuts",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "soccer ball (cones optional)"
+  },
+  {
+   "name": "soccer power shots and full volleys",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "soccer ball"
+  },
+  {
+   "name": "goalkeeper diving saves and quick recoveries",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "soccer ball (gloves optional)"
+  },
+  {
+   "name": "quarterback drop-backs and spiral throws",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "American football"
+  },
+  {
+   "name": "receiver route running with over-the-shoulder catches",
+   "ranges": [
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "American football"
+  },
+  {
+   "name": "volleyball spike approach and arm swing",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "volleyball",
+   "needs_headroom": true
+  },
+  {
+   "name": "volleyball pepper drill bump-set-hit with partner",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "volleyball",
+   "needs_headroom": true
+  },
+  {
+   "name": "rugby lateral passing while running in a line",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "rugby ball"
+  },
+  {
+   "name": "baseball bat swings and tee hits",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "baseball bat (tee and foam ball optional)"
+  },
+  {
+   "name": "baseball pitching windup and hard throws",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "baseball, glove"
+  },
+  {
+   "name": "dodgeball hard throws, dodges and dive escapes",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "foam dodgeballs"
+  },
+  {
+   "name": "boxing punch combos on focus mitts",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "boxing gloves, focus mitts"
+  },
+  {
+   "name": "shadow boxing with slips and footwork",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": true,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none"
+  },
+  {
+   "name": "boxing sparring with head movement",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "gloves, headgear"
+  },
+  {
+   "name": "roundhouse kicks on thai pads",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "Thai pads, shin guards"
+  },
+  {
+   "name": "muay thai clinch knee strikes with partner",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "none"
+  },
+  {
+   "name": "wrestling double-leg takedown drills",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "none"
+  },
+  {
+   "name": "judo hip throws with a partner",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "judo gi or none"
+  },
+  {
+   "name": "taekwondo spinning hook and back kicks",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none"
+  },
+  {
+   "name": "jumping flying kicks on hand paddles",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "kick paddles"
+  },
+  {
+   "name": "capoeira ginga with cartwheels and dodges",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "none"
+  },
+  {
+   "name": "kendo shinai strikes with lunging footwork",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "shinai, kendo armor"
+  },
+  {
+   "name": "fencing lunge and parry-riposte bouts",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "foils or epees, masks, jackets"
+  },
+  {
+   "name": "padded-stick sparring with strikes and evasions",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "padded sticks, helmets"
+  },
+  {
+   "name": "takedowns, throws and scrambles on sand or snow",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "none",
+   "ground_any": [
+    "sand",
+    "snow",
+    "turf",
+    "grass",
+    "mat",
+    "tatami"
+   ]
+  },
+  {
+   "name": "breaking windmills, flares and headspins",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": true,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": true,
+   "min_people": 1,
+   "props": "none"
+  },
+  {
+   "name": "toprock dropping into six-step footwork",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none"
+  },
+  {
+   "name": "popping robotic hits and arm waves",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": true,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none"
+  },
+  {
+   "name": "krump stomps, chest pops and arm swings",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none"
+  },
+  {
+   "name": "vogue spins into death-drop dips",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none"
+  },
+  {
+   "name": "grand allegro leaps across a diagonal",
+   "ranges": [
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": true,
+   "min_people": 1,
+   "props": "none"
+  },
+  {
+   "name": "pirouette and fouette turn sequences",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": true,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": true,
+   "min_people": 1,
+   "props": "none"
+  },
+  {
+   "name": "salsa multiple spins and cross-body leads",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "none"
+  },
+  {
+   "name": "lindy hop aerials flipping over a partner",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "none",
+   "needs_headroom": true
+  },
+  {
+   "name": "flamenco zapateado stomp bursts with braceo",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": true,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": true,
+   "min_people": 1,
+   "props": "none"
+  },
+  {
+   "name": "bhangra high hops and squat kicks arms overhead",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none"
+  },
+  {
+   "name": "k-pop synchronized sharp-point unison choreography",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "none"
+  },
+  {
+   "name": "tap time steps, shuffles and wings",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": true,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": true,
+   "min_people": 1,
+   "props": "tap shoes"
+  },
+  {
+   "name": "explosive block start into first strides",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none (optional starting blocks)"
+  },
+  {
+   "name": "head-to-head sprint race to a finish line",
+   "ranges": [
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "none"
+  },
+  {
+   "name": "sprint hurdle clearance over a hurdle row",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "track hurdles"
+  },
+  {
+   "name": "relay baton handoff at full running speed",
+   "ranges": [
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "relay baton"
+  },
+  {
+   "name": "long jump run-up, takeoff and landing",
+   "ranges": [
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none",
+   "outdoor_only": true,
+   "large_only": true
+  },
+  {
+   "name": "triple jump hop-step-jump phases",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none"
+  },
+  {
+   "name": "shot put glide and release",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "shot or medicine ball",
+   "outdoor_only": true,
+   "large_only": true
+  },
+  {
+   "name": "discus wind-up spin and release",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "discus or rubber training discus",
+   "outdoor_only": true,
+   "large_only": true
+  },
+  {
+   "name": "javelin crossover run-up and throw",
+   "ranges": [
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "foam or turbo javelin",
+   "outdoor_only": true,
+   "large_only": true
+  },
+  {
+   "name": "cone shuttle sprints with touch-and-turn",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "cones"
+  },
+  {
+   "name": "resisted lean sprints with band or sled",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "resistance band or sprint sled"
+  },
+  {
+   "name": "reaction starts from prone, seated or falling positions",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none"
+  },
+  {
+   "name": "running round-off back handspring back tuck",
+   "ranges": [
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none",
+   "ground_none": [
+    "gravel",
+    "cobble",
+    "rubble",
+    "broken",
+    "scrap",
+    "coal",
+    "slag",
+    "aggregate",
+    "stubble",
+    "sawdust",
+    "ash"
+   ]
+  },
+  {
+   "name": "standing back tuck and standing flips",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none",
+   "ground_none": [
+    "gravel",
+    "cobble",
+    "rubble",
+    "broken",
+    "scrap",
+    "coal",
+    "slag",
+    "aggregate",
+    "stubble",
+    "sawdust",
+    "ash"
+   ]
+  },
+  {
+   "name": "no-hand cartwheels and front aerials",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none",
+   "ground_none": [
+    "gravel",
+    "cobble",
+    "rubble",
+    "broken",
+    "scrap",
+    "coal",
+    "slag",
+    "aggregate",
+    "stubble",
+    "sawdust",
+    "ash"
+   ]
+  },
+  {
+   "name": "handstand walk races and handstand hops",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none",
+   "ground_none": [
+    "gravel",
+    "cobble",
+    "rubble",
+    "broken",
+    "scrap",
+    "coal",
+    "slag",
+    "aggregate",
+    "stubble",
+    "sawdust",
+    "ash"
+   ]
+  },
+  {
+   "name": "cartwheel and round-off chains across the ground",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none",
+   "ground_none": [
+    "gravel",
+    "cobble",
+    "rubble",
+    "broken",
+    "scrap",
+    "coal",
+    "slag",
+    "aggregate",
+    "stubble",
+    "sawdust",
+    "ash"
+   ]
+  },
+  {
+   "name": "cheer basket toss launching a flyer",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 3,
+   "props": "none",
+   "needs_headroom": true
+  },
+  {
+   "name": "leapfrog vaults over crouched partners",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "none"
+  },
+  {
+   "name": "kong vaults over a low box",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "low vault box"
+  },
+  {
+   "name": "tricking corks, 540 kicks and butterfly twists",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none",
+   "ground_none": [
+    "gravel",
+    "cobble",
+    "rubble",
+    "broken",
+    "scrap",
+    "coal",
+    "slag",
+    "aggregate",
+    "stubble",
+    "sawdust",
+    "ash"
+   ]
+  },
+  {
+   "name": "tag chase with sharp cuts and lunging tags",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "none"
+  },
+  {
+   "name": "red-light-green-light sprint bursts and sudden freezes",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "none"
+  },
+  {
+   "name": "speed jump rope crossovers and double-unders",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "speed jump rope"
+  },
+  {
+   "name": "double dutch jumping between two turning ropes",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 3,
+   "props": "two long jump ropes",
+   "needs_headroom": true
+  },
+  {
+   "name": "frisbee layout dives for a thrown disc",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "flying disc"
+  },
+  {
+   "name": "sack race hopping and tumbling toward a finish",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "burlap sacks"
+  },
+  {
+   "name": "wheelbarrow race crawling on hands with legs held",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "none"
+  },
+  {
+   "name": "three-legged race stumbling sprints with tied ankles",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "cloth strap or bandana"
+  },
+  {
+   "name": "tug-of-war heaves, slides and collapses",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "thick rope"
+  },
+  {
+   "name": "crack-the-whip hand-chain spin flinging the tail runner",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 3,
+   "props": "none"
+  },
+  {
+   "name": "one-legged hopping bump duels knocking partners off balance",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "none"
+  },
+  {
+   "name": "burpees with explosive jump at top",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none"
+  },
+  {
+   "name": "box jumps onto a plyo box",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "plyometric box"
+  },
+  {
+   "name": "agility ladder rapid footwork patterns",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "flat agility ladder"
+  },
+  {
+   "name": "medicine ball slams into ground, sand or water",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "slam ball or medicine ball"
+  },
+  {
+   "name": "tractor tire flips down a lane",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "large tractor tire",
+   "large_only": true
+  },
+  {
+   "name": "battle rope waves and slams",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "battle ropes anchored to a weight"
+  },
+  {
+   "name": "weighted sled push sprints",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "weighted push sled",
+   "large_only": true
+  },
+  {
+   "name": "bear crawl races",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none"
+  },
+  {
+   "name": "repeated standing broad jumps and bounding chains",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none"
+  },
+  {
+   "name": "sledgehammer strikes on a tire",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "sledgehammer and tire"
+  },
+  {
+   "name": "hay bales hurled up onto a growing stack",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "hay bales",
+   "needs_headroom": true,
+   "large_only": true
+  },
+  {
+   "name": "heavy sacks heaved and caught between partners",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "grain or sand sacks"
+  },
+  {
+   "name": "barrels rolled at a run in a race",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "steel or plastic barrels",
+   "large_only": true
+  },
+  {
+   "name": "bucket brigade sloshing water pails down a line",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "buckets, water source or tub"
+  },
+  {
+   "name": "shoveling race flinging arcs of sand or snow",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "shovels, pile of sand gravel or snow",
+   "ground_any": [
+    "sand",
+    "snow",
+    "gravel",
+    "dirt",
+    "soil",
+    "earth",
+    "ash"
+   ]
+  },
+  {
+   "name": "team log carry jog with synchronized drop",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "heavy log or beam",
+   "large_only": true
+  },
+  {
+   "name": "keg toss backward over the shoulder",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "empty keg or weighted keg",
+   "needs_headroom": true,
+   "large_only": true
+  },
+  {
+   "name": "atlas stone hoisted onto a platform repeatedly",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "heavy round stone or ball, waist-high platform",
+   "needs_headroom": true,
+   "large_only": true
+  },
+  {
+   "name": "fire hose unreeled at a sprint and dropped",
+   "ranges": [
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "coiled hose or hose reel",
+   "large_only": true
+  },
+  {
+   "name": "fireman's carry sprint hauling a partner",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "none"
+  },
+  {
+   "name": "color guard flag spins with high tosses",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": true,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "color guard flag on pole",
+   "needs_headroom": true
+  },
+  {
+   "name": "ribbon wand spirals with leaps and turns",
+   "ranges": [
+    "in_place",
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "rhythmic ribbon on stick"
+  },
+  {
+   "name": "poi spinning fast weaves and body turns",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": true,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "pair of practice poi (LED or fabric)"
+  },
+  {
+   "name": "staff spinning with body rolls and tosses",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": false,
+   "ice_ok": true,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "wooden or padded contact staff"
+  },
+  {
+   "name": "club juggling passing between two partners",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": true,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "six juggling clubs"
+  },
+  {
+   "name": "hoop tossing, rolling back and dive-through leaps",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "large rhythmic hoop",
+   "needs_headroom": true
+  },
+  {
+   "name": "drumline snare marching with quick pivot turns",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "harness snare drum and sticks"
+  },
+  {
+   "name": "lion-dance style crouch-pounce leaps without costume",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none"
+  },
+  {
+   "name": "sprinting and galloping with long streamer trails",
+   "ranges": [
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": true,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "long fabric streamers"
+  },
+  {
+   "name": "skating sprint starts into hockey-stop sprays",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": true,
+   "ice_only": true,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "ice skates",
+   "archetype_none": [
+    "curling"
+   ]
+  },
+  {
+   "name": "backward skating with quick pivot transitions",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": true,
+   "ice_only": true,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "ice skates",
+   "archetype_none": [
+    "curling"
+   ]
+  },
+  {
+   "name": "figure-skating spins and scratch spins",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": true,
+   "ice_only": true,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "figure skates",
+   "archetype_none": [
+    "curling"
+   ]
+  },
+  {
+   "name": "figure-skating jumps with skated landings",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": true,
+   "ice_only": true,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "figure skates",
+   "archetype_none": [
+    "curling"
+   ]
+  },
+  {
+   "name": "crack-the-whip partner pulls on skates",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": true,
+   "ice_only": true,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "ice skates",
+   "archetype_none": [
+    "curling"
+   ]
+  },
+  {
+   "name": "curling stone delivery slides from the hack",
+   "ranges": [
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": true,
+   "ice_only": true,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "curling stone, curling broom",
+   "archetype_any": [
+    "curling"
+   ]
+  },
+  {
+   "name": "curling sweepers scrubbing beside a sliding stone",
+   "ranges": [
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": true,
+   "ice_only": true,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "curling stone, curling brooms",
+   "archetype_any": [
+    "curling"
+   ]
+  },
+  {
+   "name": "running-start belly and feet-first slide races on ice",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": true,
+   "ice_only": true,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none",
+   "archetype_none": [
+    "curling"
+   ]
+  },
+  {
+   "name": "hockey stickhandling dekes through cones",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": true,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": true,
+   "ice_only": false,
+   "dry_only": true,
+   "min_people": 1,
+   "props": "hockey stick, puck or ball, cones"
+  },
+  {
+   "name": "goalie butterfly slides and pad saves",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": true,
+   "ice_only": true,
+   "dry_only": true,
+   "min_people": 1,
+   "props": "goalie pads, stick, pucks or balls"
+  },
+  {
+   "name": "broomball scrambles in sneakers on ice",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": true,
+   "ice_only": true,
+   "dry_only": true,
+   "min_people": 2,
+   "props": "brooms or broomball sticks, ball"
+  },
+  {
+   "name": "snowball fight with dodges and dives",
+   "ranges": [
+    "short_range",
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": true,
+   "ice_only": false,
+   "dry_only": true,
+   "min_people": 2,
+   "props": "snowballs (snow-covered ground)",
+   "ground_any": [
+    "snow"
+   ],
+   "outdoor_only": true
+  },
+  {
+   "name": "headfirst belly-flop dives onto snow or sand",
+   "ranges": [
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none",
+   "ground_any": [
+    "sand",
+    "snow"
+   ],
+   "outdoor_only": true
+  },
+  {
+   "name": "beach-flag prone-start sprint and dive for a flag",
+   "ranges": [
+    "long_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": true,
+   "small_ok": false,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "flag or baton stuck in ground",
+   "ground_any": [
+    "sand"
+   ],
+   "outdoor_only": true
+  },
+  {
+   "name": "spinning kicks that spray sand or water",
+   "ranges": [
+    "in_place"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 1,
+   "props": "none",
+   "ground_any": [
+    "sand",
+    "snow",
+    "dust"
+   ],
+   "surface_any": [
+    "water"
+   ]
+  },
+  {
+   "name": "stomp-splash water fights in ankle-deep water",
+   "ranges": [
+    "in_place",
+    "short_range"
+   ],
+   "needs_hard_surface": false,
+   "needs_space": false,
+   "small_ok": true,
+   "ice_ok": false,
+   "ice_only": false,
+   "dry_only": false,
+   "min_people": 2,
+   "props": "ankle-deep water or large puddle",
+   "surface_any": [
+    "water"
+   ]
+  }
+ ],
+ "cameras": [
+  "a static tripod camera at eye level",
+  "a slow pan from left to right",
+  "a slow orbit around the people",
+  "a slow dolly-in toward the people",
+  "a slow dolly-out revealing more of the surroundings",
+  "a handheld camera slowly circling at chest height",
+  "a camera craning down from high above to eye level",
+  "a camera tracking sideways at a steady walking pace"
+ ],
+ "person_count_plan": {
+  "1": 500,
+  "2": 450,
+  "3": 350,
+  "4": 300,
+  "5": 200,
+  "6": 200
+ },
+ "shares": {
+  "still_env": 0.4,
+  "crowd": 0.2,
+  "close_approach": 0.15,
+  "hostile_weather_cap": 0.25
+ },
+ "holdout_suffixes": [
+  "49",
+  "99"
+ ],
+ "total": 2000,
+ "bounce_ground_keywords": [
+  "concrete",
+  "asphalt",
+  "hardwood",
+  "maple",
+  "plank",
+  "tile",
+  "granite",
+  "marble",
+  "epoxy",
+  "rubber",
+  "acrylic",
+  "tarmac",
+  "painted",
+  "terrazzo",
+  "porcelain",
+  "steel",
+  "plywood",
+  "sealed",
+  "polished",
+  "stamped",
+  "paver",
+  "slab",
+  "basalt",
+  "limestone",
+  "sandstone",
+  "travertine",
+  "brick",
+  "vinyl"
+ ],
+ "no_bounce_keywords": [
+  "mat",
+  "canvas",
+  "tatami",
+  "foam",
+  "cobble",
+  "gravel",
+  "frost",
+  "sand",
+  "grass",
+  "turf",
+  "dirt",
+  "earth",
+  "snow",
+  "ice",
+  "carpet",
+  "sawdust",
+  "clay",
+  "membrane",
+  "mosaic",
+  "lawn",
+  "moss",
+  "ash",
+  "dust",
+  "pebble",
+  "stubble"
+ ],
+ "long_range_sizes": [
+  "large"
+ ],
+ "small_venue_max_people": 3
+}

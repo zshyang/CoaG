@@ -1,0 +1,19 @@
+# environments, caches, logs
+.venv/
+__pycache__/
+*.pyc
+*.log
+.DS_Store
+._*
+captions/out/cache/
+captions/out/DONE*
+# secrets and internal working notes (never public)
+handoff_mengyi/hf_token.txt
+handoff_mengyi/
+handoff_mengyi.zip
+PLAN.md
+RECALL.md
+RESEARCH.md
+research_full_20260902.md
+captions/legacy/
+data/
