@@ -52,6 +52,15 @@ Measured on 8 x H100 80GB (DeepSpeed ZeRO-2, batch 1 per GPU): 27 s per step, 70
 
 renders `control.mp4` with the same code path as the training data (`preprocess/rerender_camera.py`, `preprocess/geom.py`, the step-4 palette), so authored videos sit inside the training distribution. Feed `control.mp4`, a background image and a prompt to `train/run_infer_case.sh` (`CV=... REF=... PROMPT=...`). Two examples with rendered outputs are in `editor/examples/`; the format is documented in `editor/scene_schema.md`.
 
+## Results beyond the training distribution
+
+All on hold-out geometry, one fixed seed, no per-case selection (videos on the project page):
+
+- **Hand-authored scenes** from the editor, including two Roman soldiers duelling in the Colosseum under four camera paths with a photograph as the background (Colosseum Interior 1 by daryl_mitchell, CC BY-SA 2.0, via Wikimedia Commons; cropped, tourists patched out).
+- **Unseen scenes**: the background reference image of one hold-out clip with the geometry of another (cathedral nave, Moscow ballroom, foggy Tokyo promenade, olive grove).
+- **Unseen actions**: prompts outside the 118 training action families (tai chi, juggling, walking and chatting, carrying a ladder).
+- Known failure cases: a spurious extra person under a pan, weak dolly-out, prompt-induced extra objects, and people rendered larger than the cylinders when the background photograph's viewpoint is far from the training cameras.
+
 ## Camera control
 
 ![camera paths](docs/assets/figures/F6_camera_paths.png)

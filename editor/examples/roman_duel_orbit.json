@@ -1,0 +1,129 @@
+{
+ "version": 1,
+ "name": "roman_duel_orbit",
+ "n_frames": 81,
+ "fps": 16,
+ "width": 1280,
+ "height": 720,
+ "plane": {
+  "origin": [
+   0,
+   0,
+   0
+  ],
+  "u": [
+   1,
+   0,
+   0
+  ],
+  "v": [
+   0,
+   1,
+   0
+  ],
+  "normal": [
+   0,
+   0,
+   1
+  ]
+ },
+ "cylinders": [
+  {
+   "id": 0,
+   "height": 1.0,
+   "radius": 0.2,
+   "color_index": null,
+   "keyframes": [
+    {
+     "frame": 0,
+     "uv": [
+      2.3,
+      0.7
+     ]
+    },
+    {
+     "frame": 20,
+     "uv": [
+      2.7,
+      0.55
+     ]
+    },
+    {
+     "frame": 40,
+     "uv": [
+      3.0,
+      -0.1
+     ]
+    },
+    {
+     "frame": 60,
+     "uv": [
+      2.7,
+      -0.6
+     ]
+    },
+    {
+     "frame": 80,
+     "uv": [
+      2.4,
+      -0.3
+     ]
+    }
+   ]
+  },
+  {
+   "id": 1,
+   "height": 1.0,
+   "radius": 0.2,
+   "color_index": null,
+   "keyframes": [
+    {
+     "frame": 0,
+     "uv": [
+      2.3,
+      -0.7
+     ]
+    },
+    {
+     "frame": 20,
+     "uv": [
+      2.7,
+      -0.55
+     ]
+    },
+    {
+     "frame": 40,
+     "uv": [
+      3.0,
+      0.1
+     ]
+    },
+    {
+     "frame": 60,
+     "uv": [
+      2.7,
+      0.6
+     ]
+    },
+    {
+     "frame": 80,
+     "uv": [
+      2.4,
+      0.3
+     ]
+    }
+   ]
+  }
+ ],
+ "camera": {
+  "focal_px": 966,
+  "principal": [
+   640,
+   360
+  ],
+  "height": 0.69,
+  "pitch_deg": 2,
+  "yaw_deg": 0,
+  "path": "orbit"
+ }
+}
