@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "name": "four_people_dolly_in",
+  "n_frames": 81, "fps": 16, "width": 1280, "height": 720,
+  "plane": {"origin": [0, 0, 0], "u": [1, 0, 0], "v": [0, 1, 0], "normal": [0, 0, 1]},
+  "cylinders": [
+    {"id": 0, "height": 1.0, "keyframes": [{"frame": 0, "uv": [3.4, 1.2]}, {"frame": 80, "uv": [3.0, 1.0]}]},
+    {"id": 1, "height": 1.05, "keyframes": [{"frame": 0, "uv": [3.0, 0.4]}, {"frame": 80, "uv": [2.6, 0.3]}]},
+    {"id": 2, "height": 0.95, "keyframes": [{"frame": 0, "uv": [3.2, -0.4]}, {"frame": 80, "uv": [2.8, -0.4]}]},
+    {"id": 3, "height": 0.8, "keyframes": [{"frame": 0, "uv": [3.6, -1.2]}, {"frame": 40, "uv": [3.3, -0.9]}, {"frame": 80, "uv": [3.4, -1.1]}]}
+  ],
+  "camera": {"focal_px": 966, "principal": [640, 360], "height": 0.75, "pitch_deg": 3.0, "yaw_deg": 0.0, "path": "dolly_in"}
+}

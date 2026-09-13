@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>CoaG authoring editor</title>
+<style>
+body{margin:0;font-family:-apple-system,Helvetica,Arial,sans-serif;background:#f4f4f4;color:#222}
+header{padding:10px 16px;background:#fff;border-bottom:1px solid #ddd}
+h1{font-size:18px;margin:0}
+main{display:grid;grid-template-columns:560px 1fr;gap:16px;padding:16px;max-width:1500px}
+.panel{background:#fff;border:1px solid #ddd;border-radius:8px;padding:12px}
+canvas{display:block;background:#111;border-radius:4px}
+label{display:inline-block;margin:4px 12px 4px 0;font-size:13px}
+input[type=number]{width:64px} input[type=range]{width:200px;vertical-align:middle}
+button{margin:2px 4px 2px 0;padding:4px 10px;font-size:13px}
+.row{margin:6px 0} .small{font-size:12px;color:#666}
+#people div{padding:3px 0;font-size:13px}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:middle}
+.sel{background:#eef}
+</style></head>
+<body>
+<header><h1>CoaG authoring editor <span class="small">— drag people on the ground, pick a camera path, export scene.json, render with editor/render_authored.py</span></h1></header>
+<main>
+<section class="panel">
+  <div class="row"><b>Top view</b> <span class="small">camera at the bottom, forward is up, right is right. Drag a circle to move that person at the selected keyframe. Units = subject heights; one grid cell = one unit.</span></div>
+  <canvas id="top" width="536" width="536" height="536"></canvas>
+  <div class="row">Keyframe:
+    <span id="kfs"></span>
+    <label><input type="checkbox" id="allkf"> move all keyframes together</label>
+  </div>
+  <div class="row">
+    <button id="add">Add person</button><button id="del">Remove selected</button>
+    <span class="small">scene shift (camera distance):</span> <button id="near">closer 0.5</button><button id="far">farther 0.5</button>
+  </div>
+  <div id="people"></div>
+</section>
+<section class="panel">
+  <div class="row"><b>Camera preview</b> <span class="small">the same projection the renderer uses (1280x720 shown at half size)</span></div>
+  <canvas id="view" width="640" height="360"></canvas>
+  <div class="row">frame <input type="range" id="frame" min="0" max="80" value="0"> <span id="fval">0</span>
+    <button id="play">play</button></div>
+  <div class="row">
+    <label>path <select id="path"><option>static</option><option>dolly_in</option><option>dolly_out</option><option>orbit</option><option>pan</option><option>crane</option></select></label>
+    <label>camera height <input type="number" id="camh" step="0.05" value="0.69"></label>
+    <label>pitch down (deg) <input type="number" id="pitch" step="0.5" value="2"></label>
+    <label>yaw right (deg) <input type="number" id="yaw" step="1" value="0"></label>
+    <label>focal (px @1280) <input type="number" id="focal" step="10" value="966"></label>
+  </div>
+  <div class="row small">Training data: camera height median 0.69 (0.56–0.85), pitch 2° (−1..6°), focal 966 px (865–1082), subjects 2.6 units ahead (2.1–3.4). Path magnitudes are fixed by the renderer (dolly ≤ 1.2 units, orbit ±20°, pan ±12°, crane from +1.5 units).</div>
+  <div class="row">
+    <label>scene name <input type="text" id="name" value="my_scene"></label>
+    <button id="export">Export scene.json</button>
+    <label><input type="file" id="import" accept=".json"> import</label>
+    <button id="reset">Reset</button>
+  </div>
+  <div class="row small">Then: <code>.venv/bin/python editor/render_authored.py my_scene.json out/</code> → <code>out/my_scene/control.mp4</code>. See README.md.</div>
+</section>
+</main>
+<script>
+// ---------- math (ports of preprocess/geom.py and rerender_camera.py; the Python renderer is authoritative) ----------
+const NF = 81, W = 1280, H = 720, PALETTE = ['#E53935','#1E88E5','#43A047','#FDD835','#8E24AA','#FB8C00'];
+const KF = [0, 20, 40, 60, 80];
+const v3 = (x,y,z)=>[x,y,z], add=(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]], sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]];
+const mul=(a,s)=>[a[0]*s,a[1]*s,a[2]*s], dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
+const norm=a=>Math.hypot(a[0],a[1],a[2]), unit=a=>mul(a,1/norm(a));
+const matvec=(M,x)=>[dot(M[0],x),dot(M[1],x),dot(M[2],x)];
+const matmul=(A,B)=>A.map(r=>[0,1,2].map(j=>r[0]*B[0][j]+r[1]*B[1][j]+r[2]*B[2][j]));
+const transpose=M=>[[M[0][0],M[1][0],M[2][0]],[M[0][1],M[1][1],M[2][1]],[M[0][2],M[1][2],M[2][2]]];
+function rotAxis(axis, ang){ const a=unit(axis), K=[[0,-a[2],a[1]],[a[2],0,-a[0]],[-a[1],a[0],0]];
+  const K2=matmul(K,K), s=Math.sin(ang), c=1-Math.cos(ang);
+  return [0,1,2].map(i=>[0,1,2].map(j=>(i===j?1:0)+s*K[i][j]+c*K2[i][j])); }
+function lookAt(C,T,n){ const z=unit(sub(T,C)), x=unit(cross(mul(n,-1),z)), y=cross(z,x); return {R:[x,y,z], C}; }
+// world frame = plane frame: origin 0, u=(1,0,0) forward, v=(0,1,0) camera-left, n=(0,0,1) up
+const U=[1,0,0], V=[0,1,0], N=[0,0,1], O=[0,0,0];
+function camera0(cam){ const yaw=cam.yaw*Math.PI/180, pitch=cam.pitch*Math.PI/180;
+  let f=sub(mul(U,Math.cos(yaw)), mul(V,Math.sin(yaw))); f=sub(mul(f,Math.cos(pitch)), mul(N,Math.sin(pitch)));
+  const C0=mul(N,cam.height); return lookAt(C0, add(C0,f), N); }
+function cameraPath(name, C0, R0, T, h, t){          // one frame of rerender_camera.camera_paths
+  const f0=matvec(transpose(R0),[0,0,1]); const fh=unit(sub(f0, mul(N,dot(f0,N))));
+  const dist=dot(sub(T,C0),fh), D=Math.min(1.2*h, 0.4*dist);
+  if(name==='static') return {R:R0,C:C0};
+  if(name==='dolly_in') return {R:R0,C:add(C0,mul(fh,t*D))};
+  if(name==='dolly_out') return {R:R0,C:sub(C0,mul(fh,t*D))};
+  if(name==='orbit'){ const Rm=rotAxis(N,(40*(t-0.5))*Math.PI/180); const C=add(T,matvec(Rm,sub(C0,T))); return lookAt(C,T,N); }
+  if(name==='pan'){ const Rm=rotAxis(N,(24*(t-0.5))*Math.PI/180); return {R:matmul(R0,transpose(Rm)),C:C0}; }
+  if(name==='crane'){ const C=add(C0,mul(N,(1-t)*1.5*h)); return lookAt(C,T,N); } }
+function project(K, cam, X){ const xc=matvec(cam.R, sub(X,cam.C)); const z=xc[2];
+  return {x:(K[0]*xc[0]+K[2]*z)/Math.max(z,1e-9), y:(K[1]*xc[1]+K[3]*z)/Math.max(z,1e-9), z}; }
+function hull(pts){ pts=pts.slice().sort((a,b)=>a[0]-b[0]||a[1]-b[1]); if(pts.length<=2) return pts;
+  const cr=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]); const lo=[],up=[];
+  for(const p of pts){ while(lo.length>=2&&cr(lo[lo.length-2],lo[lo.length-1],p)<=0) lo.pop(); lo.push(p); }
+  for(const p of pts.slice().reverse()){ while(up.length>=2&&cr(up[up.length-2],up[up.length-1],p)<=0) up.pop(); up.push(p); }
+  return lo.slice(0,-1).concat(up.slice(0,-1)); }
+// ---------- scene state ----------
+let scene, sel=0, kfi=0, frame=0, playing=null;
+function defaultScene(){ return {name:'my_scene', cam:{path:'static',height:0.69,pitch:2,yaw:0,focal:966},
+  people:[{height:1.0,kf:KF.map(f=>[2.6,0.5])},{height:0.95,kf:KF.map(f=>[2.6,-0.5])}]}; }
+function posAt(p,f){ // linear interpolation between the 5 keyframes
+  for(let i=0;i<KF.length-1;i++){ if(f<=KF[i+1]){ const t=(f-KF[i])/(KF[i+1]-KF[i]); const a=p.kf[i],b=p.kf[i+1];
+    return [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t]; } } return p.kf[KF.length-1]; }
+function expanded(){ // K, per-frame cameras, cylinder colours (by left-to-right order of feet in frame 0)
+  const cam=scene.cam, K=[cam.focal,cam.focal,W/2,H/2], c0=camera0(cam);
+  const hs=scene.people.map(p=>p.height).sort((a,b)=>a-b), s=hs.length?(hs.length%2?hs[(hs.length-1)/2]:0.5*(hs[hs.length/2-1]+hs[hs.length/2])):1;
+  const mid=scene.people.length?scene.people.map(p=>posAt(p,40)).reduce((a,b)=>[a[0]+b[0],a[1]+b[1]],[0,0]).map(x=>x/scene.people.length):[3,0];
+  const T=[mid[0],mid[1],0.5*s];
+  const cams=[]; for(let k=0;k<NF;k++) cams.push(cameraPath(cam.path,c0.C,c0.R,T,s,k/(NF-1)));
+  const x0=scene.people.map((p,i)=>({i,x:project(K,cams[0],[...posAt(p,0),0]).x})).sort((a,b)=>a.x-b.x);
+  const color=[]; x0.forEach((e,rank)=>color[e.i]=PALETTE[rank%6]);
+  return {K,cams,s,color,T}; }
+// ---------- top view ----------
+const top=document.getElementById('top'), tc=top.getContext('2d'); const SC=64, CX=268, CY=470;
+const toScreen=uv=>[CX-uv[1]*SC, CY-uv[0]*SC], toUV=xy=>[(CY-xy[1])/SC, (CX-xy[0])/SC];
+function drawTop(){ const {color,s}=expanded(); tc.fillStyle='#111'; tc.fillRect(0,0,top.width,top.height);
+  tc.strokeStyle='#444'; tc.lineWidth=1; for(let a=-8;a<=8;a++){ const [x1,y1]=toScreen([a*s,-8*s]),[x2,y2]=toScreen([a*s,8*s]); tc.beginPath(); tc.moveTo(x1,y1); tc.lineTo(x2,y2); tc.stroke();
+    const [x3,y3]=toScreen([-8*s,a*s]),[x4,y4]=toScreen([8*s,a*s]); tc.beginPath(); tc.moveTo(x3,y3); tc.lineTo(x4,y4); tc.stroke(); }
+  // camera icon + horizontal field of view
+  const hf=Math.atan(W/2/scene.cam.focal), yaw=scene.cam.yaw*Math.PI/180;
+  tc.strokeStyle='#9cf'; tc.beginPath(); tc.moveTo(CX,CY); tc.lineTo(CX+Math.sin(yaw-hf)*400,CY-Math.cos(yaw-hf)*400); tc.moveTo(CX,CY); tc.lineTo(CX+Math.sin(yaw+hf)*400,CY-Math.cos(yaw+hf)*400); tc.stroke();
+  tc.fillStyle='#9cf'; tc.beginPath(); tc.arc(CX,CY,6,0,7); tc.fill(); tc.font='12px sans-serif'; tc.fillText('camera 0 (height '+scene.cam.height+')',CX+10,CY+14);
+  scene.people.forEach((p,i)=>{ // path through keyframes, keyframe dots, current-frame ghost, editable keyframe circle
+    tc.strokeStyle=color[i]; tc.lineWidth=1.5; tc.beginPath(); p.kf.forEach((uv,j)=>{ const [x,y]=toScreen(uv); j?tc.lineTo(x,y):tc.moveTo(x,y); }); tc.stroke();
+    p.kf.forEach((uv,j)=>{ const [x,y]=toScreen(uv); tc.fillStyle=color[i]; tc.beginPath(); tc.arc(x,y,3,0,7); tc.fill(); });
+    const g=toScreen(posAt(p,frame)); tc.strokeStyle='#fff'; tc.setLineDash([3,3]); tc.beginPath(); tc.arc(g[0],g[1],0.2*p.height*SC,0,7); tc.stroke(); tc.setLineDash([]);
+    const [x,y]=toScreen(p.kf[kfi]); tc.fillStyle=color[i]; tc.globalAlpha=0.85; tc.beginPath(); tc.arc(x,y,Math.max(8,0.2*p.height*SC),0,7); tc.fill(); tc.globalAlpha=1;
+    if(i===sel){ tc.strokeStyle='#fff'; tc.lineWidth=2; tc.stroke(); } tc.fillStyle='#000'; tc.fillText(String(i),x-3,y+4); }); }
+let drag=null;
+top.addEventListener('mousedown',e=>{ const r=top.getBoundingClientRect(), m=[e.clientX-r.left,e.clientY-r.top];
+  let best=null; scene.people.forEach((p,i)=>{ const [x,y]=toScreen(p.kf[kfi]); const d=Math.hypot(x-m[0],y-m[1]); if(d<Math.max(10,0.2*p.height*SC)+4 && (!best||d<best.d)) best={i,d}; });
+  if(best){ sel=best.i; drag={i:best.i, start:toUV(m), orig:scene.people[best.i].kf.map(k=>k.slice())}; render(); } });
+window.addEventListener('mousemove',e=>{ if(!drag) return; const r=top.getBoundingClientRect(), uv=toUV([e.clientX-r.left,e.clientY-r.top]);
+  const d=[uv[0]-drag.start[0], uv[1]-drag.start[1]], p=scene.people[drag.i], all=document.getElementById('allkf').checked;
+  p.kf.forEach((k,j)=>{ if(all||j===kfi){ k[0]=+(drag.orig[j][0]+d[0]).toFixed(2); k[1]=+(drag.orig[j][1]+d[1]).toFixed(2); } }); render(); });
+window.addEventListener('mouseup',()=>drag=null);
+// ---------- camera preview ----------
+const view=document.getElementById('view'), vc=view.getContext('2d');
+function drawView(){ const {K,cams,s,color}=expanded(); const cam=cams[frame], Kh=[K[0]/2,K[1]/2,K[2]/2,K[3]/2]; // half-size canvas
+  vc.fillStyle='#000'; vc.fillRect(0,0,view.width,view.height);
+  const pts=scene.people.flatMap(p=>[posAt(p,0),posAt(p,20),posAt(p,40),posAt(p,60),posAt(p,80)]).concat([[dot(sub(cams[0].C,O),U),dot(sub(cams[0].C,O),V)]]);
+  const u0=Math.min(...pts.map(q=>q[0]))-6*s, u1=Math.max(...pts.map(q=>q[0]))+6*s, v0=Math.min(...pts.map(q=>q[1]))-6*s, v1=Math.max(...pts.map(q=>q[1]))+6*s;
+  const zmin=0.05*s; vc.strokeStyle='#fff'; vc.lineWidth=1;
+  const poly=P3=>{ let run=[]; const flush=()=>{ if(run.length>1){ vc.beginPath(); run.forEach((q,i)=>i?vc.lineTo(q.x,q.y):vc.moveTo(q.x,q.y)); vc.stroke(); } run=[]; };
+    P3.forEach(X=>{ const q=project(Kh,cam,X); if(q.z>zmin) run.push(q); else flush(); }); flush(); };
+  const samp=[...Array(60).keys()].map(i=>i/59);
+  for(let a=Math.floor(u0/s)*s;a<=u1+1e-9;a+=s) poly(samp.map(t=>[a, v0+(v1-v0)*t, 0]));
+  for(let b=Math.floor(v0/s)*s;b<=v1+1e-9;b+=s) poly(samp.map(t=>[u0+(u1-u0)*t, b, 0]));
+  const order=scene.people.map((p,i)=>({i,d:-norm(sub([...posAt(p,frame),0],cam.C))})).sort((a,b)=>a.d-b.d);
+  for(const {i} of order){ const p=scene.people[i], c=posAt(p,frame), r=0.2*p.height, pts=[]; let bad=false;
+    for(let j=0;j<24;j++){ const a=2*Math.PI*j/24, base=[c[0]+r*Math.cos(a), c[1]+r*Math.sin(a), 0];
+      for(const X of [base, add(base,mul(N,p.height))]){ const q=project(Kh,cam,X); if(q.z<=zmin) bad=true; pts.push([q.x,q.y]); } }
+    if(bad) continue; const hh=hull(pts); vc.fillStyle=color[i]; vc.strokeStyle='#000'; vc.beginPath(); hh.forEach((q,j)=>j?vc.lineTo(q[0],q[1]):vc.moveTo(q[0],q[1])); vc.closePath(); vc.fill(); vc.stroke(); }
+  vc.fillStyle='#9cf'; vc.font='12px sans-serif'; vc.fillText(scene.cam.path+'  frame '+frame,8,16); }
+// ---------- UI ----------
+function renderPeople(){ const {color}=expanded(); const el=document.getElementById('people'); el.innerHTML='';
+  scene.people.forEach((p,i)=>{ const d=document.createElement('div'); d.className=i===sel?'sel':''; d.innerHTML=`<span class="sw" style="background:${color[i]}"></span>person ${i} &nbsp; height <input type="number" step="0.05" min="0.3" max="3" value="${p.height}" data-i="${i}"> &nbsp; <span class="small">keyframe ${KF[kfi]}: u=${p.kf[kfi][0]} v=${p.kf[kfi][1]}</span>`;
+    d.onclick=()=>{sel=i; render();}; d.querySelector('input').onchange=e=>{ p.height=+e.target.value; render(); }; el.appendChild(d); });
+  const k=document.getElementById('kfs'); k.innerHTML=''; KF.forEach((f,j)=>{ const b=document.createElement('button'); b.textContent='frame '+f; b.style.fontWeight=j===kfi?'bold':'normal'; b.onclick=()=>{kfi=j; frame=f; document.getElementById('frame').value=f; render();}; k.appendChild(b); }); }
+function render(){ drawTop(); drawView(); renderPeople(); document.getElementById('fval').textContent=frame; }
+function readCam(){ const g=id=>document.getElementById(id); scene.cam={path:g('path').value,height:+g('camh').value,pitch:+g('pitch').value,yaw:+g('yaw').value,focal:+g('focal').value}; scene.name=g('name').value; render(); }
+['path','camh','pitch','yaw','focal','name'].forEach(id=>document.getElementById(id).addEventListener('input',readCam));
+function writeCam(){ const g=id=>document.getElementById(id); g('path').value=scene.cam.path; g('camh').value=scene.cam.height; g('pitch').value=scene.cam.pitch; g('yaw').value=scene.cam.yaw; g('focal').value=scene.cam.focal; g('name').value=scene.name; }
+document.getElementById('frame').oninput=e=>{ frame=+e.target.value; render(); };
+document.getElementById('play').onclick=e=>{ if(playing){ clearInterval(playing); playing=null; e.target.textContent='play'; return; }
+  e.target.textContent='stop'; playing=setInterval(()=>{ frame=(frame+1)%NF; document.getElementById('frame').value=frame; render(); },1000/16); };
+document.getElementById('add').onclick=()=>{ if(scene.people.length>=6) return alert('at most 6 people (palette size, training range)'); const off=0.4*scene.people.length; scene.people.push({height:1.0,kf:KF.map(()=>[2.8+0.2*scene.people.length, -1.2+off])}); sel=scene.people.length-1; render(); };
+document.getElementById('del').onclick=()=>{ if(!scene.people.length) return; scene.people.splice(sel,1); sel=Math.max(0,sel-1); render(); };
+document.getElementById('near').onclick=()=>{ scene.people.forEach(p=>p.kf.forEach(k=>k[0]=+(k[0]-0.5).toFixed(2))); render(); };
+document.getElementById('far').onclick=()=>{ scene.people.forEach(p=>p.kf.forEach(k=>k[0]=+(k[0]+0.5).toFixed(2))); render(); };
+document.getElementById('reset').onclick=()=>{ scene=defaultScene(); sel=0; kfi=0; frame=0; writeCam(); render(); };
+function toSceneJson(){ return {version:1, name:scene.name, n_frames:NF, fps:16, width:W, height:H,
+  plane:{origin:[0,0,0],u:[1,0,0],v:[0,1,0],normal:[0,0,1]},
+  cylinders:scene.people.map((p,i)=>({id:i,height:p.height,radius:+(0.2*p.height).toFixed(3),color_index:null,keyframes:KF.map((f,j)=>({frame:f,uv:p.kf[j]}))})),
+  camera:{focal_px:scene.cam.focal,principal:[W/2,H/2],height:scene.cam.height,pitch_deg:scene.cam.pitch,yaw_deg:scene.cam.yaw,path:scene.cam.path}}; }
+function fromSceneJson(j){ const s={name:j.name||'scene',cam:{path:j.camera.path||'static',height:j.camera.height??0.69,pitch:j.camera.pitch_deg??2,yaw:j.camera.yaw_deg??0,focal:j.camera.focal_px??966},people:[]};
+  for(const c of j.cylinders){ const kf=c.keyframes.slice().sort((a,b)=>a.frame-b.frame); const at=f=>{ if(f<=kf[0].frame) return kf[0].uv.slice(); for(let i=0;i<kf.length-1;i++) if(f<=kf[i+1].frame){ const t=(f-kf[i].frame)/(kf[i+1].frame-kf[i].frame); return [kf[i].uv[0]+(kf[i+1].uv[0]-kf[i].uv[0])*t, kf[i].uv[1]+(kf[i+1].uv[1]-kf[i].uv[1])*t].map(x=>+x.toFixed(3)); } return kf[kf.length-1].uv.slice(); };
+    s.people.push({height:c.height??1, kf:KF.map(at)}); } return s; }
+document.getElementById('export').onclick=()=>{ const blob=new Blob([JSON.stringify(toSceneJson(),null,1)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=(scene.name||'scene')+'.json'; a.click(); };
+document.getElementById('import').onchange=e=>{ const f=e.target.files[0]; if(!f) return; f.text().then(t=>{ scene=fromSceneJson(JSON.parse(t)); sel=0; kfi=0; frame=0; writeCam(); render(); }); };
+scene=defaultScene(); writeCam(); render();
+</script>
+</body></html>
