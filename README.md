@@ -6,9 +6,9 @@
 
 *Left: the control video (three of 81 frames). Right: generated videos. The three rows share the geometry and differ only in the text (row 2) or the background reference image (row 3).*
 
-- Project page with videos: `docs/index.html` (GitHub Pages once the repository is public)
+- Project page with videos: https://zshyang.github.io/CoaG/
 - Paper draft: [`docs/CoaG_draft.pdf`](docs/CoaG_draft.pdf)
-- Weights, training data: Hugging Face links coming (see [Data](#data) and [Model](#model))
+- LoRA weights: [Hugging Face](https://huggingface.co/zshyang1106/CoaG-Wan2.2-Fun-A14B-Control-LoRA); training data: [Google Drive folder](https://drive.google.com/open?id=1yv-DrbCfJ_x8wmVsB9anHnuIjRzQENEB) (see [Data](#data))
 
 Status: research preview, September 2026. Authors: Zhangsihao Yang (zshyang1106@gmail.com) and Mengyi Shan (University of Washington, shanmy@cs.washington.edu). Personal project started 2026-08-31; Mengyi ran the preprocessing steps 1-3 (SAM 3.1, LaMa, HunyuanWorld-Mirror, agentic ground masks).
 
@@ -38,7 +38,7 @@ Result: 1935 training tuples (control video, background image, caption, target v
 - Base: [Wan2.2-Fun-A14B-Control](https://huggingface.co/alibaba-pai/Wan2.2-Fun-A14B-Control), `control_ref` mode (control video + reference image + text).
 - LoRA rank 64 / alpha 32 on `q, k, v, ffn.0, ffn.2` of both experts (low-noise and high-noise), 480p bucket (token length 640), 81 frames, one epoch per expert.
 - Training code: [VideoX-Fun](https://github.com/aigc-apps/VideoX-Fun) at commit `968f0e2` plus a small patch (`train/patched/`, applied by `train/apply_patch.sh`) that lets the dataset read an external reference image (`ref_file_path`, the LaMa background) instead of a frame of the training clip, so training matches inference.
-- Weights: `checkpoint-241.safetensors` for each expert (509 MB each). <!-- TODO: Hugging Face model repo link -->
+- Weights: [zshyang1106/CoaG-Wan2.2-Fun-A14B-Control-LoRA](https://huggingface.co/zshyang1106/CoaG-Wan2.2-Fun-A14B-Control-LoRA) on Hugging Face (`coag_lora_low_noise_r64_e1.safetensors`, `coag_lora_high_noise_r64_e1.safetensors`, 509 MB each).
 
 Measured on 8 x H100 80GB (DeepSpeed ZeRO-2, batch 1 per GPU): 27 s per step, 70 GB per GPU, 241 steps per expert, about 1 h 50 min per expert. See `train/RUNLOG.md` for the full log and `train/TRAIN_DESIGN.md` for the design.
 
@@ -97,7 +97,8 @@ docs/         project page and its assets (sample videos, figures)
 ## Data
 
 - 2000 captions with their seed cards: `captions/out/captions.jsonl`, `captions/out/seeds.jsonl`.
-- Control videos, background images, cameras and the 81-frame clips: Hugging Face dataset, link coming. <!-- TODO: public HF dataset -->
+- Training set (1935 + 40 hold-out tuples: 81-frame clips, control videos, LaMa background images, `metadata.json`): `CoaG_train_data.tar` (9.8 GB) in the [Google Drive folder](https://drive.google.com/open?id=1yv-DrbCfJ_x8wmVsB9anHnuIjRzQENEB). Unpack it to `data/train_data/` for `train/train_full.sh`.
+- Raw Veo clips (2000 x 6 s, 720p) with their sidecar json: `raw_clips.zip` (9.8 GB), same folder (upload pending).
 
 ## Citation
 

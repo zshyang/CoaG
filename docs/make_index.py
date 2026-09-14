@@ -93,7 +93,7 @@ footer{{margin-top:60px;font-size:13px;color:var(--muted)}}
 <h1>CoaG: Cylinders on a Grid</h1>
 <p class="sub">Coarse 3D layout control for video generation</p>
 <p>Zhangsihao Yang (zshyang1106@gmail.com) &middot; Mengyi Shan (University of Washington, shanmy@cs.washington.edu)<span class="note"> &middot; research preview, September 2026</span></p>
-<p class="links"><a href="CoaG_draft.pdf">Paper (draft PDF)</a><a href="https://github.com/zshyang/CoaG">Code + editor</a><a href="https://huggingface.co/zshyang1106/CoaG-Wan2.2-Fun-A14B-Control-LoRA">LoRA weights</a><a href="#data">Data</a></p>
+<p class="links"><a href="CoaG_draft.pdf">Paper (draft PDF)</a><a href="https://github.com/zshyang/CoaG">Code + editor</a><a href="https://huggingface.co/zshyang1106/CoaG-Wan2.2-Fun-A14B-Control-LoRA">LoRA weights</a><a href="https://drive.google.com/open?id=1yv-DrbCfJ_x8wmVsB9anHnuIjRzQENEB">Data (Google Drive)</a></p>
 <p class="lead">A user draws the crudest possible 3D scene, a ground grid and one cylinder per person, and moves the cylinders and the camera over 81 frames. A LoRA on Wan2.2-Fun-Control turns that sketch into a photoreal video in which the people stand where the cylinders stand, move as the cylinders move, and the camera moves as the drawn camera moves. Appearance comes from the text and a background reference image; layout and motion come from the geometry. The training pairs come from an automatic engine that lifts text-to-video output back to its geometry, with no real footage and no manual labels.</p>
 <img class="full" src="assets/figures/F1_teaser.png" alt="teaser">
 <p class="note">Left: the control video (three of 81 frames). Right: generated videos. The rows share the geometry and differ only in the text (row 2) or the background reference image (row 3).</p>
@@ -106,7 +106,7 @@ footer{{margin-top:60px;font-size:13px;color:var(--muted)}}
 {"".join(out)}
 <p class="note">All videos: 480 x 832, 81 frames at 16 fps, 50 sampling steps, LoRA weight 0.55 on both experts, one fixed seed, no cherry-picking within a case. Videos loop; hover to see the controls.</p>
 <h2 id="data">Data and weights</h2>
-<p class="note">LoRA weights (both experts): Hugging Face, link above. Captions and seed cards: in the code repository. Raw Veo clips, 81-frame clips, control videos and background images: Google Drive, link to be added. Colosseum background: "Colosseum Interior 1" by daryl_mitchell, CC BY-SA 2.0, via Wikimedia Commons (cropped, tourists patched out).</p>
+<p class="note">LoRA weights (both experts): Hugging Face, link above. Captions and seed cards: in the code repository. Training set (81-frame clips, control videos, background images, metadata): <a href="https://drive.google.com/open?id=1yv-DrbCfJ_x8wmVsB9anHnuIjRzQENEB">Google Drive folder</a> (CoaG_train_data.tar, 9.8 GB; raw Veo clips to follow). Colosseum background: "Colosseum Interior 1" by daryl_mitchell, CC BY-SA 2.0, via Wikimedia Commons (cropped, tourists patched out).</p>
 <footer>Built on Wan2.2-Fun-A14B-Control and VideoX-Fun (Alibaba PAI), SAM 3 (Meta), LaMa, HunyuanWorld-Mirror (Tencent), GeoCalib, Veo 3.1 (Google DeepMind via fal.ai). Compute: RunPod.</footer>
 </main></body></html>'''
 (HERE / 'index.html').write_text(page); print('index.html written with', n, 'cases;', sum(f.stat().st_size for f in (A / 'samples').iterdir()) // 2**20, 'MB of assets')
