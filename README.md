@@ -44,6 +44,10 @@ Measured on 8 x H100 80GB (DeepSpeed ZeRO-2, batch 1 per GPU): 27 s per step, 70
 
 ## Author your own scene (the editor)
 
+![editor](docs/assets/figures/F12_editor.png)
+
+*The editor with the Roman-duel scene loaded and the Colosseum photograph fitted: top view with Bézier paths (left), perspective preview over the photo with both horizon lines and the fitted camera (right).*
+
 `editor/index.html` is a single-file web editor: place 1–6 people on the ground grid from a top view, drag them to keyframes at frames 0/20/40/60/80, set each person's height, pick a camera path (static, dolly in / out, orbit, pan, crane) with height, pitch, yaw and focal length, and watch the live perspective preview. Export `scene.json`, then
 
 ```

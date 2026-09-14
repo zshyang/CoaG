@@ -68,7 +68,7 @@ for title, intro, items in sections:
             rn = f'ref_{tag}' + Path(ref).suffix; put(ref, rn); cols.append(vid(rn, 'original Veo clip') if rn.endswith('.mp4') else img(rn, 'reference image'))
         cards.append(f'<div class="case"><p class="desc">{html.escape(desc)}</p><div class="row">{"".join(cols)}</div></div>'); n += 1
     if cards: out.append(f'<h2>{html.escape(title)}</h2><p class="note">{html.escape(intro)}</p>{"".join(cards)}')
-for f in ['F1_teaser.png', 'F4_strip.png', 'F6_camera_paths.png']:
+for f in ['F1_teaser.png', 'F4_strip.png', 'F6_camera_paths.png', 'F12_editor.png']:
     src = Path('/Users/george_yang/workspace/doc/wan_control_demo/paper/figures') / f
     if src.exists(): shutil.copy2(src, A / 'figures' / f)
 page = f'''<!doctype html>
