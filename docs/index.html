@@ -18,7 +18,7 @@ footer{margin-top:60px;font-size:13px;color:var(--muted)}
 <body><main>
 <h1>CoaG: Cylinders on a Grid</h1>
 <p class="sub">Coarse 3D layout control for video generation</p>
-<p>Zhangsihao Yang<span class="note"> &middot; research preview, September 2026</span></p>
+<p>Zhangsihao Yang (zshyang1106@gmail.com) &middot; Mengyi Shan (University of Washington, shanmy@cs.washington.edu)<span class="note"> &middot; research preview, September 2026</span></p>
 <p class="links"><a href="CoaG_draft.pdf">Paper (draft PDF)</a><a href="https://github.com/zshyang/CoaG">Code + editor</a><a href="https://huggingface.co/zshyang1106/CoaG-Wan2.2-Fun-A14B-Control-LoRA">LoRA weights</a><a href="#data">Data</a></p>
 <p class="lead">A user draws the crudest possible 3D scene, a ground grid and one cylinder per person, and moves the cylinders and the camera over 81 frames. A LoRA on Wan2.2-Fun-Control turns that sketch into a photoreal video in which the people stand where the cylinders stand, move as the cylinders move, and the camera moves as the drawn camera moves. Appearance comes from the text and a background reference image; layout and motion come from the geometry. The training pairs come from an automatic engine that lifts text-to-video output back to its geometry, with no real footage and no manual labels.</p>
 <img class="full" src="assets/figures/F1_teaser.png" alt="teaser">

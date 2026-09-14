@@ -10,7 +10,7 @@
 - Paper draft: [`docs/CoaG_draft.pdf`](docs/CoaG_draft.pdf)
 - Weights, training data: Hugging Face links coming (see [Data](#data) and [Model](#model))
 
-Status: research preview, September 2026. Personal project by Zhangsihao Yang, started 2026-08-31; the preprocessing steps 1-3 were run by Mengyi Shan (UW). <!-- TODO George: confirm author/contributor line before going public -->
+Status: research preview, September 2026. Authors: Zhangsihao Yang (zshyang1106@gmail.com) and Mengyi Shan (University of Washington, shanmy@cs.washington.edu). Personal project started 2026-08-31; Mengyi ran the preprocessing steps 1-3 (SAM 3.1, LaMa, HunyuanWorld-Mirror, agentic ground masks).
 
 ## What is in the control signal
 
@@ -104,7 +104,7 @@ docs/         project page and its assets (sample videos, figures)
 ```bibtex
 @misc{yang2026coag,
   title  = {CoaG: Cylinders on a Grid --- Coarse 3D Layout Control for Video Generation},
-  author = {Yang, Zhangsihao},
+  author = {Yang, Zhangsihao and Shan, Mengyi},
   year   = {2026},
   note   = {Preprint}
 }
