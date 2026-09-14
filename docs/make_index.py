@@ -12,6 +12,7 @@ def vid(name, cap): return f'<figure><video src="assets/samples/{name}" muted lo
 def img(name, cap): return f'<figure><img src="assets/samples/{name}" loading="lazy"><figcaption>{cap}</figcaption></figure>'
 # ---- sections: (title, intro, [ (desc, control_src, gen_src, ref_src or None, tag) ])
 S1 = RT / 'cloud/samples'; S2 = RT / 'cloud/samples_unseen'; S3 = RT / 'cloud/samples_roman'
+NB = RT / 'cloud/samples_nb'; ZC = RT / 'infer_inputs_nb/c0899'; RNB = RT / 'infer_inputs/c0899_ref_nobars.png'
 C = lambda cid: RT / f'train_data/control/{cid}.mp4'; R = lambda cid: RT / f'train_data/ref/{cid}.png'; I = lambda cid, m: RT / f'infer_inputs/{cid}/control_{m}.mp4'
 sections = [
  ('Hand-authored geometry, never seen in training', 'Control videos drawn in the editor (top view, Bézier paths, camera presets) and rendered with the same renderer as the training data.',
@@ -33,8 +34,8 @@ sections = [
  ('Unseen actions: prompts outside the 118 training action families', 'Same geometry and background as the baselines, only the action in the text changed.',
   [('Slow tai chi in unison.', C('c0599'), S2 / 'action_c0599_taichi/00000003.mp4', R('c0599'), 'action_c0599_taichi'),
    ('Juggling three balls each.', C('c0599'), S2 / 'action_c0599_juggling/00000003.mp4', R('c0599'), 'action_c0599_juggling'),
-   ('Walking briskly and chatting.', C('c0899'), S2 / 'action_c0899_walk_chat/00000003.mp4', R('c0899'), 'action_c0899_walk_chat'),
-   ('Carrying a long ladder together.', C('c0899'), S2 / 'action_c0899_ladder/00000003.mp4', R('c0899'), 'action_c0899_ladder')]),
+   ('Walking briskly and chatting.', ZC / 'control_static.mp4', NB / 'action_c0899_walk_chat_nb/00000003.mp4', RNB, 'action_c0899_walk_chat_nb'),
+   ('Carrying a long ladder together.', ZC / 'control_static.mp4', NB / 'action_c0899_ladder_nb/00000003.mp4', RNB, 'action_c0899_ladder_nb')]),
  ('Stress tests: cases chosen to break the model', 'Hand-authored geometry on the plaza background; each pushes one factor outside the training range (count, occlusion, camera, viewpoint, height ratio, or a prompt that contradicts the geometry).',
   [(d, RT / f'../../code/wan_control_demo/editor/examples/out/stress/{t}/{t}/control.mp4', RT / f'cloud/samples_stress/{t}/00000003.mp4', None, t) for t, d in [
    ('stress_6people', 'Six people in a diagonal line (the training maximum).'), ('stress_8people', 'Eight people (beyond the training range; colours cycle).'),
@@ -43,16 +44,16 @@ sections = [
    ('stress_contradict_count', 'Three cylinders, but the prompt says one woman alone.'), ('stress_seated', 'Standing cylinders, but the prompt says two people sit on the ground.'), ('stress_exit_frame', 'One person walks from far away past the camera.'), ('stress_empty', 'No cylinders at all; the prompt asks for an empty plaza.')]]),
  ('Baselines on hold-out clips', 'Own caption, own background, the control video recovered from the clip; the original Veo clip for reference.',
   [('c0599: two dancers on a stadium plaza.', C('c0599'), S1 / 'base_c0599/00000003.mp4', RT / 'train_data/videos/c0599.mp4', 'base_c0599'),
-   ('c0899: three skaters on a frozen lagoon.', C('c0899'), S1 / 'base_c0899/00000003.mp4', RT / 'train_data/videos/c0899.mp4', 'base_c0899')]),
+   ('c0899: three skaters on a frozen lagoon (bar-free reference; the Veo clip was letterboxed).', ZC / 'control_static.mp4', NB / 'base_c0899_nb/00000003.mp4', RNB, 'base_c0899_nb')]),
  ('Change the people (text only)', 'Same control video and background as the baseline.',
   [('c0599: elderly Scottish man in tweed + young Nigerian woman in a yellow raincoat.', C('c0599'), S1 / 'person_c0599/00000003.mp4', None, 'person_c0599'),
-   ('c0899: Norwegian man in a red sweater, Korean woman in a black puffer and white helmet, Mexican man in a blue tracksuit.', C('c0899'), S1 / 'person_c0899/00000003.mp4', None, 'person_c0899')]),
+   ('c0899: Norwegian man in a red sweater, Korean woman in a black puffer and white helmet, Mexican man in a blue tracksuit.', ZC / 'control_static.mp4', NB / 'person_c0899_nb/00000003.mp4', None, 'person_c0899_nb')]),
  ('Change the background (reference image)', 'Same control video; the reference image and the scene words swapped between the two clips.',
-  [('c0599 dancers on the frozen lagoon.', C('c0599'), S1 / 'bg_c0599_lagoon/00000003.mp4', R('c0899'), 'bg_c0599_lagoon'),
+  [('c0599 dancers on the frozen lagoon.', C('c0599'), NB / 'bg_c0599_lagoon_nb/00000003.mp4', RNB, 'bg_c0599_lagoon_nb'),
    ('c0899 skaters on the stadium plaza.', C('c0899'), S1 / 'bg_c0899_plaza/00000003.mp4', R('c0599'), 'bg_c0899_plaza')]),
  ('Change the camera (authored paths on the recovered geometry)', 'Same cylinders, caption and reference image; the camera path re-rendered.',
   [(f'c0599: {m.replace("_", " ")}.', I('c0599', m), S1 / f'cam_c0599_{m}/00000003.mp4', None, f'cam_c0599_{m}') for m in ['static', 'dolly_in', 'dolly_out', 'orbit', 'pan', 'crane']] +
-  [(f'c0899: {m.replace("_", " ")}.', I('c0899', m), S1 / f'cam_c0899_{m}/00000003.mp4', None, f'cam_c0899_{m}') for m in ['orbit', 'dolly_in']]),
+  [(f'c0899: {m.replace("_", " ")}.', ZC / f'control_{m}.mp4', NB / f'cam_c0899_{m}_nb/00000003.mp4', None, f'cam_c0899_{m}_nb') for m in ['orbit', 'dolly_in']]),
 ]
 out = []; n = 0
 for title, intro, items in sections:

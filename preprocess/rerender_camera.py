@@ -10,7 +10,7 @@ Paths, all 81 frames, expressed relative to the clip's own camera 0 and plane fr
 Usage: python rerender_camera.py <preproc_dir> <mengyi_dir> <out_dir> <cid> [names...]
 Writes <out_dir>/<cid>/control_<name>.mp4 (1280x720, 16 fps, 81 frames) and <out_dir>/<cid>/cams_<name>.json.
 """
-import sys, os, os, json, subprocess, tempfile, shutil
+import sys, os, json, subprocess, tempfile, shutil
 import numpy as np
 from PIL import Image, ImageDraw
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
