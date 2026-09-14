@@ -26,9 +26,7 @@ sections = [
    ('c0899 skaters on the stadium plaza.', C('c0899'), S1 / 'bg_c0899_plaza/00000003.mp4', R('c0599'), 'bg_c0899_plaza')]),
  ('Change the camera (authored paths on the recovered geometry)', 'Same cylinders, caption and reference image; the camera path re-rendered.',
   [(f'c0599: {m.replace("_", " ")}.', I('c0599', m), S1 / f'cam_c0599_{m}/00000003.mp4', None, f'cam_c0599_{m}') for m in ['static', 'dolly_in', 'dolly_out', 'orbit', 'pan', 'crane']] +
-  [(f'c0899: {m.replace("_", " ")}.', ZC / f'control_{m}.mp4', NB / f'cam_c0899_{m}_nb/00000003.mp4', None, f'cam_c0899_{m}_nb') for m in ['orbit', 'dolly_in']]), ('Change the background (reference image)', 'Same control video; the reference image and the scene words swapped between the two clips.',
-  [('c0599 dancers on the frozen lagoon.', C('c0599'), NB / 'bg_c0599_lagoon_nb/00000003.mp4', RNB, 'bg_c0599_lagoon_nb'),
-   ('c0899 skaters on the stadium plaza.', C('c0899'), S1 / 'bg_c0899_plaza/00000003.mp4', R('c0599'), 'bg_c0899_plaza')]),
+  [(f'c0899: {m.replace("_", " ")}.', ZC / f'control_{m}.mp4', NB / f'cam_c0899_{m}_nb/00000003.mp4', None, f'cam_c0899_{m}_nb') for m in ['orbit', 'dolly_in']]),
  ('Unseen scenes: the background reference image comes from a different hold-out clip', 'Geometry of one hold-out clip, background of another; the model saw neither.',
   [('Two dancers (c0599 geometry) in a deconsecrated cathedral (reference of c0249).', C('c0599'), S2 / 'scene_c0599_cathedral/00000003.mp4', R('c0249'), 'scene_c0599_cathedral'),
    ('Two dancers in a faded Moscow ballroom (reference of c1699).', C('c0599'), S2 / 'scene_c0599_ballroom/00000003.mp4', R('c1699'), 'scene_c0599_ballroom'),
