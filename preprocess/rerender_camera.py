@@ -10,7 +10,7 @@ Paths, all 81 frames, expressed relative to the clip's own camera 0 and plane fr
 Usage: python rerender_camera.py <preproc_dir> <mengyi_dir> <out_dir> <cid> [names...]
 Writes <out_dir>/<cid>/control_<name>.mp4 (1280x720, 16 fps, 81 frames) and <out_dir>/<cid>/cams_<name>.json.
 """
-import sys, os, json, subprocess, tempfile, shutil
+import sys, os, os, json, subprocess, tempfile, shutil
 import numpy as np
 from PIL import Image, ImageDraw
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -98,6 +98,8 @@ def main():
     pdir, mdir, out, cid = sys.argv[1:5]; names = sys.argv[5:] or NAMES
     p = json.load(open(f'{pdir}/{cid}/plane.json')); cyl = json.load(open(f'{pdir}/{cid}/cylinders.json'))['subjects']
     cams = np.load(f'{mdir}/{cid}/cams10.npz'); K = cams['K'][0].astype(float); w2c0 = cams['w2c'][0].astype(float)
+    if os.environ.get('ZOOM'):  # optional uniform zoom about the principal point (used to match a reference image cropped free of letterbox bars)
+        K[0, 0] *= float(os.environ['ZOOM']); K[1, 1] *= float(os.environ['ZOOM'])
     n, o, u, v = (np.array(p[k]) for k in ('normal', 'origin', 'u', 'v')); h = p['grid_spacing']
     C0 = cam_center(w2c0); R0 = w2c0[:, :3]
     allpos = np.array([c['pos'] for c in cyl])                      # [S, 81, 3]
