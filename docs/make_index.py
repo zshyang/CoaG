@@ -69,7 +69,7 @@ for title, intro, items in sections:
             rn = f'ref_{tag}' + Path(ref).suffix; put(ref, rn); cols.append(vid(rn, 'original Veo clip') if rn.endswith('.mp4') else img(rn, 'reference image'))
         cards.append(f'<div class="case"><p class="desc">{html.escape(desc)}</p><div class="row">{"".join(cols)}</div></div>'); n += 1
     if cards: out.append(f'<h2>{html.escape(title)}</h2><p class="note">{html.escape(intro)}</p>{"".join(cards)}')
-for f in ['F1_teaser.png', 'F4_strip.png', 'F4_data_engine.png', 'F6_camera_paths.png', 'F12_editor.png']:
+for f in ['F1_teaser.png', 'F2_overview.png', 'F4_strip.png', 'F4_data_engine.png', 'F6_camera_paths.png', 'F12_editor.png']:
     src = Path('/Users/george_yang/workspace/doc/wan_control_demo/paper/figures') / f
     if src.exists(): shutil.copy2(src, A / 'figures' / f)
 page = f'''<!doctype html>
@@ -97,6 +97,9 @@ footer{{margin-top:60px;font-size:13px;color:var(--muted)}}
 <p class="lead">A user draws the crudest possible 3D scene, a ground grid and one cylinder per person, and moves the cylinders and the camera over 81 frames. A LoRA on Wan2.2-Fun-Control turns that sketch into a photoreal video in which the people stand where the cylinders stand, move as the cylinders move, and the camera moves as the drawn camera moves. Appearance comes from the text and a background reference image; layout and motion come from the geometry. The training pairs come from an automatic engine that lifts text-to-video output back to its geometry, with no real footage and no manual labels.</p>
 <img class="full" src="assets/figures/F1_teaser.png" alt="teaser">
 <p class="note">Left: the control video (three of 81 frames). Right: generated videos. The rows share the geometry and differ only in the text (row 2) or the background reference image (row 3).</p>
+<h2>Overview</h2>
+<img class="full" src="assets/figures/F2_overview.png" alt="overview">
+<p class="note">Top: inference from a hand-authored layout (editor &rarr; control video + reference image + text &rarr; Wan2.2-Fun-Control with one LoRA per expert). Bottom: training tuples come from the data engine; the renderer and the three input slots are the same in both.</p>
 <h2>How the training pairs are made</h2>
 <img class="full" src="assets/figures/F4_data_engine.png" alt="data engine">
 <p class="note">One clip through the data engine: input frame, person masks (SAM 3.1), background (LaMa), ground mask (agent loop over SAM 3 phrases), plane and cylinders (HunyuanWorld-Mirror cameras and points, RANSAC plane), control frame.</p>
