@@ -1,0 +1,172 @@
+{
+ "version": 1,
+ "name": "stress_contradict_count",
+ "n_frames": 81,
+ "fps": 16,
+ "width": 1280,
+ "height": 720,
+ "plane": {
+  "origin": [
+   0,
+   0,
+   0
+  ],
+  "u": [
+   1,
+   0,
+   0
+  ],
+  "v": [
+   0,
+   1,
+   0
+  ],
+  "normal": [
+   0,
+   0,
+   1
+  ]
+ },
+ "cylinders": [
+  {
+   "id": 0,
+   "height": 1.0,
+   "radius": 0.2,
+   "color_index": null,
+   "keyframes": [
+    {
+     "frame": 0,
+     "uv": [
+      2.6,
+      0.7
+     ]
+    },
+    {
+     "frame": 20,
+     "uv": [
+      2.6,
+      0.7
+     ]
+    },
+    {
+     "frame": 40,
+     "uv": [
+      2.6,
+      0.7
+     ]
+    },
+    {
+     "frame": 60,
+     "uv": [
+      2.6,
+      0.7
+     ]
+    },
+    {
+     "frame": 80,
+     "uv": [
+      2.6,
+      0.7
+     ]
+    }
+   ]
+  },
+  {
+   "id": 1,
+   "height": 0.95,
+   "radius": 0.19,
+   "color_index": null,
+   "keyframes": [
+    {
+     "frame": 0,
+     "uv": [
+      2.6,
+      0.0
+     ]
+    },
+    {
+     "frame": 20,
+     "uv": [
+      2.6,
+      0.0
+     ]
+    },
+    {
+     "frame": 40,
+     "uv": [
+      2.6,
+      0.0
+     ]
+    },
+    {
+     "frame": 60,
+     "uv": [
+      2.6,
+      0.0
+     ]
+    },
+    {
+     "frame": 80,
+     "uv": [
+      2.6,
+      0.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": 2,
+   "height": 1.05,
+   "radius": 0.21,
+   "color_index": null,
+   "keyframes": [
+    {
+     "frame": 0,
+     "uv": [
+      2.6,
+      -0.7
+     ]
+    },
+    {
+     "frame": 20,
+     "uv": [
+      2.6,
+      -0.7
+     ]
+    },
+    {
+     "frame": 40,
+     "uv": [
+      2.6,
+      -0.7
+     ]
+    },
+    {
+     "frame": 60,
+     "uv": [
+      2.6,
+      -0.7
+     ]
+    },
+    {
+     "frame": 80,
+     "uv": [
+      2.6,
+      -0.7
+     ]
+    }
+   ]
+  }
+ ],
+ "camera": {
+  "focal_px": 966,
+  "principal": [
+   640,
+   360
+  ],
+  "height": 0.69,
+  "pitch_deg": 2,
+  "yaw_deg": 0,
+  "path": "static"
+ }
+}

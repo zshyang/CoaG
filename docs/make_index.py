@@ -15,10 +15,14 @@ S1 = RT / 'cloud/samples'; S2 = RT / 'cloud/samples_unseen'; S3 = RT / 'cloud/sa
 C = lambda cid: RT / f'train_data/control/{cid}.mp4'; R = lambda cid: RT / f'train_data/ref/{cid}.png'; I = lambda cid, m: RT / f'infer_inputs/{cid}/control_{m}.mp4'
 sections = [
  ('Hand-authored geometry, never seen in training', 'Control videos drawn in the editor (top view, Bézier paths, camera presets) and rendered with the same renderer as the training data.',
-  [('Two Roman soldiers fight in the Colosseum: same authored duel under four camera paths (background: a Wikimedia Commons photo, CC BY-SA 2.0 daryl_mitchell, tourists patched out). Orbit.', S3 / 'control_roman_orbit.mp4', S3 / 'roman_orbit/00000003.mp4', S3 / 'colosseum_ref.png', 'roman_orbit'),
-   ('Same duel, crane.', S3 / 'control_roman_crane.mp4', S3 / 'roman_crane/00000003.mp4', None, 'roman_crane'),
-   ('Same duel, dolly in.', S3 / 'control_roman_dolly_in.mp4', S3 / 'roman_dolly_in/00000003.mp4', None, 'roman_dolly_in'),
-   ('Same duel, static camera.', S3 / 'control_roman_static.mp4', S3 / 'roman_static/00000003.mp4', None, 'roman_static'),
+  [('Two Roman soldiers fight in the Colosseum (background: a Wikimedia Commons photo, CC BY-SA 2.0 daryl_mitchell, tourists patched out). Camera fitted to the photograph with GeoCalib (focal length + horizon), static.', S3 / 'control_roman_fit_static.mp4', S3 / 'roman_fit_static/00000003.mp4', S3 / 'colosseum_ref.png', 'roman_fit_static'),
+   ('Fitted camera, orbit anchored to the photo pose.', S3 / 'control_roman_fit_orbit.mp4', S3 / 'roman_fit_orbit/00000003.mp4', None, 'roman_fit_orbit'),
+   ('Fitted camera, dolly in.', S3 / 'control_roman_fit_dolly_in.mp4', S3 / 'roman_fit_dolly_in/00000003.mp4', None, 'roman_fit_dolly_in'),
+   ('Fitted camera, pan (failure: a helmet fills the left of the first frames).', S3 / 'control_roman_fit_pan.mp4', S3 / 'roman_fit_pan/00000003.mp4', None, 'roman_fit_pan'),
+   ('Same duel WITHOUT fitting the ground (default authoring camera): the fighters come out far larger than the cylinders prescribe. Static.', S3 / 'control_roman_static.mp4', S3 / 'roman_static/00000003.mp4', None, 'roman_static'),
+   ('Default camera, orbit.', S3 / 'control_roman_orbit.mp4', S3 / 'roman_orbit/00000003.mp4', None, 'roman_orbit'),
+   ('Default camera, dolly in.', S3 / 'control_roman_dolly_in.mp4', S3 / 'roman_dolly_in/00000003.mp4', None, 'roman_dolly_in'),
+   ('Default camera, crane (not followed: the video stays at the photo viewpoint).', S3 / 'control_roman_crane.mp4', S3 / 'roman_crane/00000003.mp4', None, 'roman_crane'),
    ('Two people swap places along curved paths under an orbiting camera (stadium plaza background of hold-out c0599).', S2 / 'control_authored_two_people_orbit.mp4', S2 / 'authored_two_people_orbit/00000003.mp4', R('c0599'), 'authored_two_people_orbit'),
    ('Four people of different heights in a row, dolly in (olive grove background of hold-out c0999).', S2 / 'control_authored_four_people_dolly_in.mp4', S2 / 'authored_four_people_dolly_in/00000003.mp4', R('c0999'), 'authored_four_people_dolly_in')]),
  ('Unseen scenes: the background reference image comes from a different hold-out clip', 'Geometry of one hold-out clip, background of another; the model saw neither.',
@@ -31,6 +35,12 @@ sections = [
    ('Juggling three balls each.', C('c0599'), S2 / 'action_c0599_juggling/00000003.mp4', R('c0599'), 'action_c0599_juggling'),
    ('Walking briskly and chatting.', C('c0899'), S2 / 'action_c0899_walk_chat/00000003.mp4', R('c0899'), 'action_c0899_walk_chat'),
    ('Carrying a long ladder together.', C('c0899'), S2 / 'action_c0899_ladder/00000003.mp4', R('c0899'), 'action_c0899_ladder')]),
+ ('Stress tests: cases chosen to break the model', 'Hand-authored geometry on the plaza background; each pushes one factor outside the training range (count, occlusion, camera, viewpoint, height ratio, or a prompt that contradicts the geometry).',
+  [(d, RT / f'../../code/wan_control_demo/editor/examples/out/stress/{t}/{t}/control.mp4', RT / f'cloud/samples_stress/{t}/00000003.mp4', None, t) for t, d in [
+   ('stress_6people', 'Six people in a diagonal line (the training maximum).'), ('stress_8people', 'Eight people (beyond the training range; colours cycle).'),
+   ('stress_cross_twice', 'Two people crossing paths twice (occlusion).'), ('stress_orbit90', 'Orbit of 90 degrees (training: +-20).'), ('stress_dolly_far', 'Dolly in over 2.4 subject heights (training: at most 1.2).'),
+   ('stress_topdown', 'Camera 3 subject heights up, pitched 55 degrees down.'), ('stress_lowcam', 'Camera 0.2 subject heights above the ground, level.'), ('stress_tall_short', 'A 1.7-unit adult next to a 0.6-unit child.'),
+   ('stress_contradict_count', 'Three cylinders, but the prompt says one woman alone.'), ('stress_seated', 'Standing cylinders, but the prompt says two people sit on the ground.'), ('stress_exit_frame', 'One person walks from far away past the camera.'), ('stress_empty', 'No cylinders at all; the prompt asks for an empty plaza.')]]),
  ('Baselines on hold-out clips', 'Own caption, own background, the control video recovered from the clip; the original Veo clip for reference.',
   [('c0599: two dancers on a stadium plaza.', C('c0599'), S1 / 'base_c0599/00000003.mp4', RT / 'train_data/videos/c0599.mp4', 'base_c0599'),
    ('c0899: three skaters on a frozen lagoon.', C('c0899'), S1 / 'base_c0899/00000003.mp4', RT / 'train_data/videos/c0899.mp4', 'base_c0899')]),
@@ -49,7 +59,11 @@ for title, intro, items in sections:
     cards = []
     for desc, ctrl, gen, ref, tag in items:
         if not Path(gen).exists(): continue
-        cn = f'control_{tag}.mp4'; gn = f'{tag}.mp4'; put(ctrl, cn); put(gen, gn); cols = [vid(cn, 'control video'), vid(gn, 'generated')]
+        sbs = RT / f'cloud/sbs/{tag}_sbs.mp4'
+        if sbs.exists():
+            sn = f'{tag}_sbs.mp4'; put(sbs, sn); cols = [f'<figure class="wide"><video src="assets/samples/{sn}" muted loop autoplay playsinline preload="metadata"></video><figcaption>input control video (left) and generated video (right), one file, frame-aligned</figcaption></figure>']
+        else:
+            cn = f'control_{tag}.mp4'; gn = f'{tag}.mp4'; put(ctrl, cn); put(gen, gn); cols = [vid(cn, 'control video'), vid(gn, 'generated')]
         if ref is not None and Path(ref).exists():
             rn = f'ref_{tag}' + Path(ref).suffix; put(ref, rn); cols.append(vid(rn, 'original Veo clip') if rn.endswith('.mp4') else img(rn, 'reference image'))
         cards.append(f'<div class="case"><p class="desc">{html.escape(desc)}</p><div class="row">{"".join(cols)}</div></div>'); n += 1
@@ -69,7 +83,7 @@ h1{{font-size:34px;margin:0 0 4px}} .sub{{font-size:19px;color:var(--muted);marg
 h2{{font-size:22px;margin:40px 0 6px;border-bottom:1px solid var(--line);padding-bottom:6px}}
 p.lead{{font-size:17px}} img.full{{width:100%;height:auto;display:block;border:1px solid var(--line)}}
 .case{{margin:14px 0 22px}} .desc{{margin:0 0 6px;color:var(--fg);font-size:14px}}
-.row{{display:flex;gap:10px;flex-wrap:wrap}} figure{{margin:0;flex:1 1 340px;max-width:380px}}
+.row{{display:flex;gap:10px;flex-wrap:wrap}} figure{{margin:0;flex:1 1 340px;max-width:380px}} figure.wide{{flex:2 1 700px;max-width:780px}} figure.wide video{{aspect-ratio:32/9}}
 video,figure img{{width:100%;aspect-ratio:16/9;object-fit:contain;background:#000;display:block;border-radius:4px}}
 figcaption{{font-size:12px;color:var(--muted);margin-top:3px}} .note{{font-size:14px;color:var(--muted);margin:0 0 8px}}
 footer{{margin-top:60px;font-size:13px;color:var(--muted)}}

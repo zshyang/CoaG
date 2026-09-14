@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "name": "stress_empty",
+ "n_frames": 81,
+ "fps": 16,
+ "width": 1280,
+ "height": 720,
+ "plane": {
+  "origin": [
+   0,
+   0,
+   0
+  ],
+  "u": [
+   1,
+   0,
+   0
+  ],
+  "v": [
+   0,
+   1,
+   0
+  ],
+  "normal": [
+   0,
+   0,
+   1
+  ]
+ },
+ "cylinders": [],
+ "camera": {
+  "focal_px": 966,
+  "principal": [
+   640,
+   360
+  ],
+  "height": 0.69,
+  "pitch_deg": 2,
+  "yaw_deg": 0,
+  "path": "static"
+ }
+}

@@ -103,6 +103,13 @@ def expand_scene(scene):
     T = np.array([c['pos'][40] for c in cyl]).mean(0) + 0.5 * s_grid * n if cyl else o + 3 * s_grid * u
     path = cam.get('path', 'static'); assert path in rc.NAMES, f'camera.path must be one of {rc.NAMES}'
     w2cs = rc.camera_paths(path, C0, R0, n, o, u, v, T, s_grid)
+    # stress-test knobs (JSON only, not in the editor UI): camera.orbit_deg (default 40, re-aimed like the preset) and
+    # camera.dolly_travel (in subject heights; default min(1.2 h, 40% of the distance to the group))
+    if path == 'orbit' and 'orbit_deg' in cam and not cam.get('anchor_first_frame'):
+        deg = float(cam['orbit_deg']); w2cs = [rc.look_at(T + rc.rot_axis(n, np.radians(deg * (t - 0.5))) @ (C0 - T), T, n) for t in np.linspace(0, 1, rc.NF)]
+    if path in ('dolly_in', 'dolly_out') and 'dolly_travel' in cam:
+        f0 = R0.T @ np.array([0, 0, 1.0]); fh = f0 - (f0 @ n) * n; fh = fh / np.linalg.norm(fh); D = float(cam['dolly_travel']) * s_grid * (1 if path == 'dolly_in' else -1)
+        w2cs = [rc.w2c_from(R0, C0 + t * D * fh) for t in np.linspace(0, 1, rc.NF)]
     if cam.get('anchor_first_frame'):
         # Camera fitted to a background photograph (fit_background.py): frame 0 must keep the photo's orientation R0, so the
         # re-aiming presets are replaced by rigid moves that start at (C0, R0): orbit 0..+40 deg about the vertical through T,
