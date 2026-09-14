@@ -116,4 +116,4 @@ Wan2.2 and VideoX-Fun (Alibaba PAI), SAM 3 (Meta), LaMa, HunyuanWorld-Mirror (Te
 
 ## License
 
-TBD. <!-- TODO George: code license (MIT / Apache-2.0); weights follow the Wan2.2 license; data terms follow the Veo terms -->
+Code and the editor: [MIT](LICENSE). The LoRA weights are derived from Wan2.2-Fun-A14B-Control and follow its license (Apache-2.0). The captions and control videos we generated are released for research use; the raw video clips were produced with Veo 3.1 and are shared under Google's usage terms.
