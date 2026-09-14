@@ -69,7 +69,7 @@ for title, intro, items in sections:
             rn = f'ref_{tag}' + Path(ref).suffix; put(ref, rn); cols.append(vid(rn, 'original Veo clip') if rn.endswith('.mp4') else img(rn, 'reference image'))
         cards.append(f'<div class="case"><p class="desc">{html.escape(desc)}</p><div class="row">{"".join(cols)}</div></div>'); n += 1
     if cards: out.append(f'<h2>{html.escape(title)}</h2><p class="note">{html.escape(intro)}</p>{"".join(cards)}')
-for f in ['F1_teaser.png', 'F4_strip.png', 'F6_camera_paths.png', 'F12_editor.png']:
+for f in ['F1_teaser.png', 'F4_strip.png', 'F4_data_engine.png', 'F6_camera_paths.png', 'F12_editor.png']:
     src = Path('/Users/george_yang/workspace/doc/wan_control_demo/paper/figures') / f
     if src.exists(): shutil.copy2(src, A / 'figures' / f)
 page = f'''<!doctype html>
@@ -98,7 +98,7 @@ footer{{margin-top:60px;font-size:13px;color:var(--muted)}}
 <img class="full" src="assets/figures/F1_teaser.png" alt="teaser">
 <p class="note">Left: the control video (three of 81 frames). Right: generated videos. The rows share the geometry and differ only in the text (row 2) or the background reference image (row 3).</p>
 <h2>How the training pairs are made</h2>
-<img class="full" src="assets/figures/F4_strip.png" alt="data engine">
+<img class="full" src="assets/figures/F4_data_engine.png" alt="data engine">
 <p class="note">One clip through the data engine: input frame, person masks (SAM 3.1), background (LaMa), ground mask (agent loop over SAM 3 phrases), plane and cylinders (HunyuanWorld-Mirror cameras and points, RANSAC plane), control frame.</p>
 {"".join(out)}
 <p class="note">All videos: 480 x 832, 81 frames at 16 fps, 50 sampling steps, LoRA weight 0.55 on both experts, one fixed seed, no cherry-picking within a case. Videos loop; hover to see the controls.</p>
