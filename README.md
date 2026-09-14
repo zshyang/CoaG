@@ -7,7 +7,7 @@
 *Left: the control video (three of 81 frames). Right: generated videos. The three rows share the geometry and differ only in the text (row 2) or the background reference image (row 3).*
 
 - Project page with videos: https://zshyang.github.io/CoaG/
-- Paper draft: [`docs/CoaG_draft.pdf`](docs/CoaG_draft.pdf)
+- Paper draft (PDF, updated as we go): [Google Drive](https://drive.google.com/open?id=1_tsTy2CYDZT6kYTShU6yR7e60dMTnDCW); a frozen snapshot is attached to the [v0.1-draft release](https://github.com/zshyang/CoaG/releases/tag/v0.1-draft)
 - LoRA weights: [Hugging Face](https://huggingface.co/zshyang1106/CoaG-Wan2.2-Fun-A14B-Control-LoRA); training data: [Google Drive folder](https://drive.google.com/open?id=1yv-DrbCfJ_x8wmVsB9anHnuIjRzQENEB) (see [Data](#data))
 
 Status: research preview, September 2026. Authors: Zhangsihao Yang (zshyang1106@gmail.com) and Mengyi Shan (University of Washington, shanmy@cs.washington.edu). Personal project started 2026-08-31; Mengyi ran the preprocessing steps 1-3 (SAM 3.1, LaMa, HunyuanWorld-Mirror, agentic ground masks).
@@ -81,7 +81,7 @@ preprocess/   PREPROCESS_DESIGN.md (steps 1-4), geom.py (RANSAC plane, horizon),
               rerender_camera.py (authored camera paths), make_train_manifest.py, geocalib_horizon.py, QC summaries
 train/        setup_pod.sh, apply_patch.sh + patched/, train_gate3.sh, train_full.sh, run_infer_case.sh, run_compare.sh,
               snapshot_env.sh, fetch_from_pod.sh, TRAIN_DESIGN.md, RUNLOG.md
-docs/         project page, its assets (sample videos, figures) and the paper draft PDF
+docs/         project page and its assets (sample videos, figures)
 docs/         project page and its assets (sample videos, figures)
 ```
 
